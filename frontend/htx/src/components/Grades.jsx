@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Grades = ({ grades }) => {
     const dummyGrades = [
@@ -8,6 +8,9 @@ const Grades = ({ grades }) => {
         { subject: 'English', grades: [{ value: 6, description: 'Literature', date: '2023-02-10' }] },
         { subject: 'Art', grades: [{ value: 5, description: 'Painting', date: '2023-01-20' }, { value: 6, description: 'Sculpture', date: '2023-01-25' }] },
     ];
+
+    const [hoveredGrade, setHoveredGrade] = useState(null);
+    const [hoveredGradePosition, setHoveredGradePosition] = useState({ x: 0, y: 0 });
 
     const getGradeColor = (gradeValue) => {
         const grade = gradeValue.value;
@@ -25,6 +28,16 @@ const Grades = ({ grades }) => {
             default:
                 return 'black';
         }
+    };
+
+    const handleMouseEnter = (gradeValue, event) => {
+        setHoveredGrade(gradeValue);
+        const gradeRect = event.target.getBoundingClientRect();
+        setHoveredGradePosition({ x: gradeRect.right, y: gradeRect.top });
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredGrade(null);
     };
 
     return (
@@ -48,6 +61,8 @@ const Grades = ({ grades }) => {
                                             key={i}
                                             className="grade-box"
                                             style={{ backgroundColor: getGradeColor(gradeValue) }}
+                                            onMouseEnter={(event) => handleMouseEnter(gradeValue, event)}
+                                            onMouseLeave={handleMouseLeave}
                                         >
                                             {gradeValue.value}
                                         </span>
@@ -58,6 +73,12 @@ const Grades = ({ grades }) => {
                     </tbody>
                 </table>
             </div>
+            {hoveredGrade && (
+                <div className="hovered-grade" style={{ position: 'absolute', top: hoveredGradePosition.y, left: hoveredGradePosition.x, transform: 'translate(-100%, -100%)' }}>
+                    <p>Description: {hoveredGrade.description}</p>
+                    <p>Date: {hoveredGrade.date}</p>
+                </div>
+            )}
         </div>
     );
 };

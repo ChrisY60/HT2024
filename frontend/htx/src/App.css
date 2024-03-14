@@ -58,23 +58,12 @@ body {
     width: 3vw;
     height: 3vw;
 }
-
-.tooltip {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+.hovered-grade {
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    z-index: 999;
 }
 
-.grade-box:hover .tooltip {
-    visibility: visible;
-}
 
