@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 @Data
-public class UserRegisterRequest {
+public class StudentRegisterRequest {
     @NonNull
     private String firstName;
     @NonNull
@@ -18,7 +18,7 @@ public class UserRegisterRequest {
     @NonNull
     private String school;
     @NonNull
-    private String role;
     private String studentClass;
+    @NonNull
     private Integer classNumber;
 }
