@@ -6,25 +6,25 @@ const Main = () => {
             title: 'Mathematics',
             description: 'Explore the world of numbers and equations.',
             image: 'math.jpg',
-            link: '/math'
+            link: '/subject'
         },
         {
             title: 'Science',
             description: 'Discover the wonders of the natural world.',
             image: 'science.jpg',
-            link: '/science'
+            link: '/subject'
         },
         {
             title: 'History',
             description: 'Journey through the past and learn about our ancestors.',
             image: 'history.jpg',
-            link: '/history'
+            link: '/subject'
         },
         {
             title: 'Literature',
             description: 'Dive into the realm of words and stories.',
             image: 'literature.jpg',
-            link: '/literature'
+            link: '/subjectx'
         }
     ];
 

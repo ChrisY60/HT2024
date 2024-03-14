@@ -11,7 +11,7 @@ const Navbar = () => (
             </div>
             {/* Right side */}
             <div className="navbar-nav ml-auto">
-                <Link to="/" className="nav-item nav-link font-weight-bold">Login</Link>
+                <Link to="/login" className="nav-item nav-link font-weight-bold">Login</Link>
                 <Link to="/register" className="nav-item nav-link font-weight-bold">Register</Link>
             </div>
         </div>
