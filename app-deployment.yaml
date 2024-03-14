@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: academix-deployment
+  labels:
+    app: academix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: academix
+  template:
+    metadata:
+      labels:
+        app: academix
+    spec:
+      containers:
+        - name: academix
+          image: nashiq image -------
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: academix-service
+spec:
+  type: NodePort
+  selector:
+    app: academix
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
