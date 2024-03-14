@@ -2,18 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" style={{backgroundColor: "#157145"}}>
         <div className="container">
-            <Link to="/" className="navbar-brand font-weight-bold">Login</Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <Link to="/register" className="nav-link font-weight-bold">Register</Link>
-                    </li>
-                </ul>
+            {/* Left side */}
+            <div className="navbar-nav mr-auto">
+                <Link to="/" className="nav-item nav-link font-weight-bold">Home</Link>
+                <Link to="/" className="nav-item nav-link font-weight-bold">Grade</Link>
+            </div>
+            {/* Right side */}
+            <div className="navbar-nav ml-auto">
+                <Link to="/" className="nav-item nav-link font-weight-bold">Login</Link>
+                <Link to="/register" className="nav-item nav-link font-weight-bold">Register</Link>
             </div>
         </div>
     </nav>
