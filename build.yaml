@@ -18,7 +18,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Run tests
+      - name: Run tests with Maven
         run: |
-		chmod +x ./mvnw
-		./mvnw clean test package
+          chmod +x ./mvnw
+          ./mvnw clean test package
