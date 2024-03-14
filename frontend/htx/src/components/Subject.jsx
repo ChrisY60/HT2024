@@ -30,13 +30,13 @@ const Subject = () => {
             <div className="mb-3 d-flex justify-content-center">
                 <div className="btn-group" role="group">
                     <button
-                        className={`btn btn-sm ${displayAssignments ? 'btn-primary' : 'btn-success'}`}
+                        className={`btn btn-sm ${displayAssignments ? 'btn-secondary' : 'btn-success'}`}
                         onClick={handleToggle}
                     >
                         Assignments
                     </button>
                     <button
-                        className={`btn btn-sm ${displayAssignments ? 'btn-success' : 'btn-primary'}`}
+                        className={`btn btn-sm ${displayAssignments ? 'btn-success' : 'btn-secondary'}`}
                         onClick={handleToggle}
                     >
                         Materials
