@@ -7,18 +7,20 @@ import Register from "./components/Register";
 import Navbar from "./components/Navbar";
 import Main from "./components/Main";
 import Assignments from "./components/Assignments";
+import Subject from "./components/Subject"
 
 function App() {
-  return (
-    <Router>
-        <Navbar />
-      <Routes>
-        <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path={"/assignment"} element={<Assignments />} />
-      </Routes>
-    </Router>
+    return (
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path={"/assignment"} element={<Assignments />} />
+                <Route path={"/subject"} element={<Subject />} />
+            </Routes>
+        </Router>
   );
 }
 
