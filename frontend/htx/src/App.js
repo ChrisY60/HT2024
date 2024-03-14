@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
 import Main from "./components/Main";
-import Subject from "./components/Subject";
+import Assignments from "./components/Assignments";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/subject" element={<Subject />} />
+          <Route path={"/assignment"} element={<Assignments />} />
       </Routes>
     </Router>
   );
