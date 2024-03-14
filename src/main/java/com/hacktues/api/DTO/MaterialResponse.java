@@ -10,4 +10,5 @@ import java.util.Date;
 public class MaterialResponse {
     private final String name;
     private final Date date;
+    private final String filePath;
 }

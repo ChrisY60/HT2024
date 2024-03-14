@@ -7,5 +7,4 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SubjectCreateRequest {
     private final String name;
-    private final String studentClass;
 }
