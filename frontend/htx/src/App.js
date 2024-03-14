@@ -5,13 +5,15 @@ import Login from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
+import Main from "./components/Main";
 
 function App() {
   return (
     <Router>
         <Navbar />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
