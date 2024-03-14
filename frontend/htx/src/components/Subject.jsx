@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Subject = () => {
     const [displayAssignments, setDisplayAssignments] = useState(true);
@@ -29,13 +30,13 @@ const Subject = () => {
             <div className="mb-3 d-flex justify-content-center">
                 <div className="btn-group" role="group">
                     <button
-                        className={`btn btn-sm ${displayAssignments ? 'btn-primary' : 'btn-success'}`} 
+                        className={`btn btn-sm ${displayAssignments ? 'btn-primary' : 'btn-success'}`}
                         onClick={handleToggle}
                     >
                         Assignments
                     </button>
                     <button
-                        className={`btn btn-sm ${displayAssignments ? 'btn-success' : 'btn-primary'}`} 
+                        className={`btn btn-sm ${displayAssignments ? 'btn-success' : 'btn-primary'}`}
                         onClick={handleToggle}
                     >
                         Materials
@@ -45,15 +46,15 @@ const Subject = () => {
             {displayAssignments ? (
                 <div>
                     <h3>Assignments:</h3>
-                    <div className="d-flex justify-content-center"> 
+                    <div className="d-flex justify-content-center">
                         <div className="card-deck">
                             {subjectData.assignments.map((assignment, index) => (
-                                <div className="card mb-3" key={index}>
+                                <Link to="/assignment" key={index} className="card mb-3 text-decoration-none">
                                     <div className="card-body">
                                         <h5 className="card-title">Title: {assignment.title}</h5>
                                         <p className="card-text">End Date: {assignment.endDate}</p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>

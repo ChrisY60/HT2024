@@ -25,7 +25,7 @@ const Main = () => {
             title: 'Literature',
             description: 'Dive into the realm of words and stories.',
             imageURL: 'https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg',
-            link: '/subjectx'
+            link: '/subject'
         }
     ];
 
