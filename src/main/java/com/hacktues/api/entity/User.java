@@ -36,7 +36,6 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", referencedColumnName = "id")
     private School school;
 
     @Column(name = "role", nullable = false)

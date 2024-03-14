@@ -3,8 +3,6 @@ package com.hacktues.api.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Table(name = "students")
 @Data
@@ -19,17 +17,9 @@ public class Student {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
     private StudentClass studentClass;
 
     @Column(name = "class_number")
-    private String classNumber;
+    private Integer classNumber;
 
-    @ManyToMany
-    @JoinTable(
-            name = "students_subjects",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private List<Subject> subjects;
 }

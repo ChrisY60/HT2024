@@ -18,11 +18,6 @@ public class Teacher {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "teachers_subjects",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
+    @OneToMany(mappedBy = "teacher")
     private List<Subject> subjects;
 }
