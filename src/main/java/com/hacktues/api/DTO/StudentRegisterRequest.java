@@ -21,4 +21,6 @@ public class StudentRegisterRequest {
     private String studentClass;
     @NonNull
     private Integer classNumber;
+    @NonNull
+    private String accessCode;
 }

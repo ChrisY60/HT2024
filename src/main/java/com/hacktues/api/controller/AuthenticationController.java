@@ -1,5 +1,6 @@
 package com.hacktues.api.controller;
 
+import com.hacktues.api.DTO.StudentRegisterRequest;
 import com.hacktues.api.DTO.TeacherRegisterRequest;
 import com.hacktues.api.DTO.UserLoginRequest;
 import com.hacktues.api.DTO.UserResponse;
@@ -17,13 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody TeacherRegisterRequest teacherRegisterRequest) {
+    @PostMapping("/register-teacher")
+    public ResponseEntity<UserResponse> registerTeacher(@RequestBody TeacherRegisterRequest teacherRegisterRequest) {
         return ResponseEntity.ok(authenticationService.registerTeacher(teacherRegisterRequest));
+    }
+
+    @PostMapping("/register-student")
+    public ResponseEntity<UserResponse> registerStudent(@RequestBody StudentRegisterRequest studentRegisterRequest) {
+        return ResponseEntity.ok(authenticationService.registerStudent(studentRegisterRequest));
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@RequestBody UserLoginRequest userLoginDTO) {
-        return ResponseEntity.ok(authenticationService.loginTeacher(userLoginDTO));
+        return ResponseEntity.ok(authenticationService.login(userLoginDTO));
     }
 }
