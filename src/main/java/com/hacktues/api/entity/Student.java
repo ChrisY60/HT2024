@@ -17,9 +17,9 @@ public class Student {
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "student_class_id", referencedColumnName = "id")
     private StudentClass studentClass;
 
     @Column(name = "class_number")
     private Integer classNumber;
-
 }
