@@ -19,10 +19,27 @@ public class Subject {
 
     @ManyToMany
     @JoinTable(
+        name = "subjects_classes",
+        joinColumns = @JoinColumn(name = "subject_id"),
+        inverseJoinColumns = @JoinColumn(name = "class_id")
+    )
+    private List<StudentClass> studentClasses;
+
+
+    @ManyToMany
+    @JoinTable(
         name = "teachers_subjects",
         joinColumns = @JoinColumn(name = "subject_id"),
         inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     private List<Teacher> teachers;
+
+    @ManyToMany
+    @JoinTable(
+        name = "students_subjects",
+        joinColumns = @JoinColumn(name = "subject_id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> students;
 }
 
