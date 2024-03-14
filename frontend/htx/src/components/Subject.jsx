@@ -23,28 +23,29 @@ const Subject = () => {
     };
 
     return (
-        <div className="subject text-center"> {/* Center align all content */}
-            <br /><br /><br />
+        <div className="subject text-center">
             <h2>{subjectData.name}</h2>
             <p>Teacher: {subjectData.teacher}</p>
             <div className="mb-3 d-flex justify-content-center">
-                <button
-                    className={`btn btn-sm mr-2 ${displayAssignments ? 'btn-primary' : 'btn-secondary'}`}
-                    onClick={handleToggle}
-                >
-                    Assignments
-                </button>
-                <button
-                    className={`btn btn-sm ${displayAssignments ? 'btn-secondary' : 'btn-primary'}`}
-                    onClick={handleToggle}
-                >
-                    Materials
-                </button>
+                <div className="btn-group" role="group">
+                    <button
+                        className={`btn btn-sm ${displayAssignments ? 'btn-primary' : 'btn-success'}`} 
+                        onClick={handleToggle}
+                    >
+                        Assignments
+                    </button>
+                    <button
+                        className={`btn btn-sm ${displayAssignments ? 'btn-success' : 'btn-primary'}`} 
+                        onClick={handleToggle}
+                    >
+                        Materials
+                    </button>
+                </div>
             </div>
             {displayAssignments ? (
                 <div>
                     <h3>Assignments:</h3>
-                    <div className="d-flex justify-content-center"> {/* Center assignments horizontally */}
+                    <div className="d-flex justify-content-center"> 
                         <div className="card-deck">
                             {subjectData.assignments.map((assignment, index) => (
                                 <div className="card mb-3" key={index}>
@@ -60,7 +61,7 @@ const Subject = () => {
             ) : (
                 <div>
                     <h3>Materials:</h3>
-                    <div className="d-flex justify-content-center"> {/* Center materials horizontally */}
+                    <div className="d-flex justify-content-center">
                         <div className="card-deck">
                             {subjectData.materials.map((material, index) => (
                                 <div className="card mb-3" key={index}>

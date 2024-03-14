@@ -1,29 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Main = () => {
     const subjects = [
         {
             title: 'Mathematics',
             description: 'Explore the world of numbers and equations.',
-            image: 'math.jpg',
+            imageURL: 'https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg',
             link: '/subject'
         },
         {
             title: 'Science',
             description: 'Discover the wonders of the natural world.',
-            image: 'science.jpg',
+            imageURL: 'https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg',
             link: '/subject'
         },
         {
             title: 'History',
             description: 'Journey through the past and learn about our ancestors.',
-            image: 'history.jpg',
+            imageURL: 'https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg',
             link: '/subject'
         },
         {
             title: 'Literature',
             description: 'Dive into the realm of words and stories.',
-            image: 'literature.jpg',
+            imageURL: 'https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg',
             link: '/subjectx'
         }
     ];
@@ -34,13 +35,13 @@ const Main = () => {
             <div className="row">
                 {subjects.map((subject, index) => (
                     <div key={index} className="col-lg-6 mb-4">
-                        <div className="card">
-                            <div className="card-body">
+                        <Link to={subject.link} className="card d-flex flex-column justify-content-center align-items-center" style={{ height: '20vh', width: '40vw', overflow: 'hidden', paddingRight: 0, paddingLeft: 0, textDecoration: 'none' }}>
+                            <img src={subject.imageURL} className="card-img-top" alt={subject.title} style={{ height: '50%', objectFit: 'cover' }} />
+                            <div className="card-body text-center">
                                 <h5 className="card-title">{subject.title}</h5>
                                 <p className="card-text">{subject.description}</p>
-                                <a href={subject.link} className="btn btn-success">Explore {subject.title}</a>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))}
             </div>

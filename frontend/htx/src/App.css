@@ -41,3 +41,7 @@
   background-color: #DCF2B0;
   color: black/* Lighter color on hover */
 }
+
+body {
+    margin-top: 10vh;
+}
