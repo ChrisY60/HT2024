@@ -8,14 +8,14 @@ services:
     networks:
       - springapimysql-net
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/AcademiX?allowPublicKeyRetrieval=true
+      - spring.datasource.url=jdbc:mysql://localhost:3306/academix
     depends_on:
-      mysqldb:
+      mysqldbdocker:
         condition: service_healthy
     volumes:
       - /tmp
 
-  mysqldb:
+  mysqldbdocker:
     image: "mysql:8.0"
     restart: always
     ports:
@@ -23,12 +23,12 @@ services:
     networks:
       - springapimysql-net
     environment:
-      MYSQL_DATABASE: AcademiX
+      MYSQL_DATABASE: academix
       MYSQL_ROOT_PASSWORD: adminadmin
       MYSQL_USER: user
-      MYSQL_PASSWORD: pass
+      MYSQL_PASSWORD: asdasd
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "mysqldb", "-P", "3306", "--silent" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "mysqldbdocker", "-P", "3306", "--silent" ]
       interval: 10s
       timeout: 5s
       retries: 100
