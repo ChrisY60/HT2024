@@ -1,3 +1,4 @@
 public class plagiarismChecker {
-    private string final APIKey = ""
+    private final String APIKey = "";
+    private final String APIURL = "";
 }
