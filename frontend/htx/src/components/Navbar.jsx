@@ -7,7 +7,7 @@ const Navbar = () => (
             {/* Left side */}
             <div className="navbar-nav mr-auto">
                 <Link to="/" className="nav-item nav-link font-weight-bold">Home</Link>
-                <Link to="/" className="nav-item nav-link font-weight-bold">Grade</Link>
+                <Link to="/grades" className="nav-item nav-link font-weight-bold">Grade</Link>
             </div>
             {/* Right side */}
             <div className="navbar-nav ml-auto">
