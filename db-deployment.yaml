@@ -19,6 +19,7 @@ spec:
         image: mariadb:11.4.1-rc-jammy
         ports:
           - containerPort: 3306
+
         volumeMounts:
         - name: mariadb-data
           mountPath: /var/lib/mysql
@@ -43,7 +44,7 @@ kind: Service
 metadata:
   name: mariadb-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: db
   ports:

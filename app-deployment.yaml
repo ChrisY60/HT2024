@@ -16,19 +16,19 @@ spec:
     spec:
       containers:
         - name: academix
-          image: nashiq image -------
+          image: byab5/ht2024-api_service:0.2.0-SNAPSHOT
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: academix-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: academix
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 8000
+      port: 8080
+      targetPort: 8080

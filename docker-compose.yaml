@@ -4,11 +4,9 @@ services:
     build: .
     restart: always
     ports:
-      - "9091:8080"
+      - "8080:8080"
     networks:
       - springapimysql-net
-    environment:
-      - spring.datasource.url=jdbc:mysql://mysqldbdocker:3306/academix?allowPublicKeyRetrieval=true
     depends_on:
       mysqldbdocker:
         condition: service_healthy
