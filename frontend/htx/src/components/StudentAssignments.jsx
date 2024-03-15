@@ -29,7 +29,7 @@ const StudentAssignments = () => {
             .catch((err) => {
                 console.error('Error fetching subjects:', err);
             });
-    }, []);
+    }, [token]);
     /*const studentsData = [
         { id: 1, name: "John Doe" },
         { id: 2, name: "Jane Smith" },

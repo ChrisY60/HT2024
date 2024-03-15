@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from 'react';
-import * as jose from "jose";
-import {useNavigate} from "react-router-dom";
+import React, { createContext, useContext, useState } from 'react';
+import * as jose from 'jose';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setToken('');
         localStorage.removeItem('token');
+        navigate('/login');
     };
 
     const isTokenExpired = () => {
@@ -29,7 +30,6 @@ export const AuthProvider = ({ children }) => {
                 if (currentTime >= expirationTime) {
                     alert('Your token has expired. Please log in again.');
                     logout();
-                    navigate('/login');
                 }
             }
         } catch (error) {
@@ -45,5 +45,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-
-
