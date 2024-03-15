@@ -62,9 +62,22 @@ body {
 .clicked-grade {
     position: absolute;
     opacity: 0.9;
-    background-color: #b1d69f;
+    background-color: lightgray;
     border: none;
     border-radius: 5px;
     padding: 10px;
     z-index: 999;
 }
+
+.upload-button {
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+

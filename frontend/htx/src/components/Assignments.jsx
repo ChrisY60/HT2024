@@ -8,36 +8,51 @@ const Assignments = ({ title, subject, description, dueDate }) => {
         dueDate: '2024-03-20'
     };
 
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        const selectedFiles = Array.from(e.target.files);
+        console.log('Selected files:', selectedFiles);
+        setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('File submitted:', file);
+        console.log('Files submitted:', files);
     };
 
     return (
-        <div className="card shadow p-3 mb-5 mt-5 bg-white rounded">
-            <div className="card-body">
-                <h5 className="card-title">{assignment.title}</h5>
-                <p className="card-subtitle mb-2 text-muted">Subject: {assignment.subject}</p>
-                <p className="card-text">Description: {assignment.description}</p>
-                <p className="card-text"><small className="text-muted">Due Date: {assignment.dueDate}</small></p>
-                <hr />
-                <form onSubmit={handleSubmit}>
-                    <div className="row mb-3">
-                        <div className="col-12">
-                            <label htmlFor="fileInput" className="form-label">Attach File:</label>
+        <div className="assignment-card" style={{ width: '50vw', margin: 'auto' }}>
+            <div className="card shadow p-3 mb-5 mt-5 bg-white rounded">
+                <div className="card-body">
+                    <h5 className="card-title">{assignment.title}</h5>
+                    <p className="card-subtitle mb-2 text-muted">Subject: {assignment.subject}</p>
+                    <p className="card-text">Description: {assignment.description}</p>
+                    <p className="card-text"><small className="text-muted">Due Date: {assignment.dueDate}</small></p>
+                    <hr />
+                    <form onSubmit={handleSubmit}>
+                        <div className="row mb-3">
+                            <div className="col-12">
+                                <label htmlFor="fileInput" className="form-label">Attach File:</label>
+                            </div>
+                            <div className="col-12">
+                                <input type="file" id="fileInput" className="form-control-file" onChange={handleFileChange} multiple />
+                            </div>
+                            <div className="mt-3">
+                                {files.map((file, index) => (
+                                    <div key={index} className="d-flex align-items-center">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/2246/2246713.png" alt="file icon" style={{ width: '24px', height: '24px', marginRight: '8px' }} />
+                                        <span>{file.name}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        <div className="col-12">
-                            <input type="file" id="fileInput" className="form-control-file" onChange={handleFileChange} />
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-success btn-lighten">Hand In</button>
-                </form>
+                        <button type="submit" className="btn btn-success btn-lighten">Hand In</button>
+                    </form>
+                    
+                </div>
             </div>
         </div>
     );
