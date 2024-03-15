@@ -23,8 +23,8 @@ public class MaterialsController {
 
     @PostMapping
     public ResponseEntity<Void> createMaterial(@PathVariable Long subjectId,
-                                               @RequestPart MaterialCreateRequest materialCreateRequest,
-                                               @RequestPart List<MultipartFile> files) {
+                                               @RequestPart("materialCreateRequest") MaterialCreateRequest materialCreateRequest,
+                                               @RequestPart("files") List<MultipartFile> files) {
         materialService.createMaterial(subjectId, materialCreateRequest, files);
         return ResponseEntity.ok().build();
     }
