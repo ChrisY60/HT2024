@@ -16,7 +16,6 @@ const Assignments = ({ title, subject, description, dueDate }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add logic to handle file submission here
         console.log('File submitted:', file);
     };
 

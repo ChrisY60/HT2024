@@ -52,7 +52,7 @@ const Main = () => {
                 {subjects.map((subject, index) => (
                     <div key={index} className="col-lg-6 mb-4">
                         <Link to={`/subject/${subject.id}`} className="card d-flex flex-column justify-content-center align-items-center" style={{ height: '20vh', width: '40vw', overflow: 'hidden', paddingRight: 0, paddingLeft: 0, textDecoration: 'none' }}>
-                            <img src={subject.imageURL} className="card-img-top" alt={subject.name} style={{ height: '50%', objectFit: 'cover' }} />
+                            <img src="https://d3nl1jd9up78ug.cloudfront.net/wages/how-to-become-a-mathematician-484-detail.jpg" className="card-img-top" alt={subject.name} style={{ height: '50%', objectFit: 'cover' }} />
                             <div className="card-body text-center">
                                 <h5 className="card-title">{subject.name}</h5>
                             </div>
