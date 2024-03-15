@@ -87,7 +87,7 @@ const Subject = () => {
 
     const passAssignment = (assignment) => {
         console.log(assignment);
-        const queryString = `id=${assignment.id}&title=${encodeURIComponent(assignment.title)}&endDate=${assignment.endDate}`;
+        const queryString = `id=${assignment.id}&name=${encodeURIComponent(assignment.name)}&deadline=${assignment.deadline}`;
         setAssignmentString(queryString);
     };
 
@@ -95,6 +95,25 @@ const Subject = () => {
         <div className="subject text-center">
             <h2>{subjectData.name}</h2>
             <p>Teacher: {subjectData.teacher}</p>
+            <div className="mb-3 d-flex justify-content-center">
+                {user === "TEACHER" ? (
+                    <div>
+                        <button  style={{marginRight: "1vw"}}
+                            className="btn btn-sm btn-success"
+                            onClick={() => navigate('/add-assignment')}
+                        >
+                            Add Assignment
+                        </button>
+                        <button
+                            className="btn btn-sm btn-success"
+                            onClick={() => navigate('/add-material')}
+                        >
+                            Add Material
+                        </button>
+                    </div>
+                ) : null
+                }
+            </div>
             <div className="mb-3 d-flex justify-content-center">
                 <div className="btn-group" role="group">
                     <button
