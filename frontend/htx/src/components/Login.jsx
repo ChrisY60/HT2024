@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-//import { useAuth } from './Auth';
+import { useAuth } from './Auth';
 
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    //const { login } = useAuth();
+    const { login } = useAuth();
 
-    /*const handleLogin = async () => {
+    const handleLogin = async () => {
         try {
-            const response = await axios.post(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
                 email: email,
                 password: password,
             });
@@ -24,7 +24,7 @@ const Login = () => {
         } catch (error) {
             console.error('Login failed', error);
         }
-    };*/
+    };
 
     return (
         <div className="d-flex align-items-center justify-content-center vh-100">
@@ -51,7 +51,7 @@ const Login = () => {
                     </div>
                     <button
                         type="button"
-                        //onClick={handleLogin}
+                        onClick={handleLogin}
                         className="btn btn-success btn-lg btn-block mt-4"
                     >
                         Login
