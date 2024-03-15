@@ -17,7 +17,7 @@ public class Material {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "due_date", nullable = false)
+    @Column(name = "publish_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 

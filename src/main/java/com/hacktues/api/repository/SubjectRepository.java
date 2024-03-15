@@ -11,4 +11,6 @@ import java.util.List;
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Query("SELECT s FROM Subject s JOIN s.studentClass sc WHERE sc.id = :studentClassId")
     List<Subject> findSubjectsByStudentClassId(Long studentClassId);
+
+    List<Subject> findSubjectsByTeacherId(Long id);
 }
