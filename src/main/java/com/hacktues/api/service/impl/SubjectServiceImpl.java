@@ -38,6 +38,8 @@ public class SubjectServiceImpl implements SubjectService {
             List<Subject> subjects = subjectRepository.findSubjectsByTeacherId(teacher.getId());
 
             return subjectMapper.toSubjectResponseList(subjects);
+        } else {
+            return subjectMapper.toSubjectResponseList(subjectRepository.findAll());
         }
     }
 }
