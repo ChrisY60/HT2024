@@ -31,7 +31,7 @@ const Subject = () => {
     useEffect(() => {
         getCurrentUser();
         const headers = {Authorization: `Bearer ${token}`};
-        axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
+        axios.get(`http://192.168.199.73:8080/api/v1/subjects/${id}/assignments`, {headers})
             .then((res) => {
                 console.log(res.data);
                 const subjectData = res.data;
@@ -63,7 +63,7 @@ const Subject = () => {
         setDisplayAssignments(!displayAssignments);
         const headers = {Authorization: `Bearer ${token}`};
         if(displayAssignments){
-            axios.get(`http://localhost:8080/api/v1/subjects/${id}/materials`, {headers})
+            axios.get(`http://192.168.199.73:8080/api/v1/subjects/${id}/materials`, {headers})
                 .then((res) => {
                     console.log(res.data);
                     const subjectData = res.data;
@@ -73,7 +73,7 @@ const Subject = () => {
                     console.error('Error fetching subjects:', err);
                 });
         } else {
-            axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
+            axios.get(`http://192.168.199.73:8080/api/v1/subjects/${id}/assignments`, {headers})
                 .then((res) => {
                     console.log(res.data);
                     const subjectData = res.data;
@@ -100,7 +100,7 @@ const Subject = () => {
                     <div>
                         <button  style={{marginRight: "1vw"}}
                             className="btn btn-sm btn-success"
-                            onClick={() => navigate('/add-assignment')}
+                            onClick={() => navigate(`/add-assignment?id=${id}`)}
                         >
                             Add Assignment
                         </button>

@@ -19,7 +19,7 @@ const StudentAssignments = () => {
         console.log({id, title, endDate});
         setReceivedData({ id, title, endDate });
 
-        axios.get(`http://localhost:8080/api/v1/assignments/${id}/students`, {headers})
+        axios.get(`http://192.168.199.73:8080/api/v1/assignments/${id}/students`, {headers})
             .then((res) => {
                 console.log(res.data);
                 const students = res.data;
