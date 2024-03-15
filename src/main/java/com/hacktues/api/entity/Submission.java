@@ -22,13 +22,6 @@ public class Submission {
     @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = false)
     private Grade grade;
 
-    @Column(name = "comment")
-    private String comment;
-
-    @Column(name = "graded_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date gradedDate;
-
     @ManyToOne
     @JoinColumn(name = "assignment_id", referencedColumnName = "id", nullable = false)
     private Assignment assignment;

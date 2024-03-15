@@ -3,6 +3,8 @@ package com.hacktues.api.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "grades")
 @Data
@@ -14,6 +16,13 @@ public class Grade {
 
     @Column(name = "grade")
     private Double grade;
+
+    @Column(name = "comment")
+    private String comment;
+
+    @Column(name = "graded_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date gradedDate;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
