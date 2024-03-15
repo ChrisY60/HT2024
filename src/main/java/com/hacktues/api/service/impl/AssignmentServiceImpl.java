@@ -2,10 +2,7 @@ package com.hacktues.api.service.impl;
 
 import com.hacktues.api.DTO.AssignmentCreateRequest;
 import com.hacktues.api.DTO.AssignmentResponse;
-import com.hacktues.api.entity.Assignment;
-import com.hacktues.api.entity.Subject;
-import com.hacktues.api.entity.Teacher;
-import com.hacktues.api.entity.User;
+import com.hacktues.api.entity.*;
 import com.hacktues.api.mapper.AssignmentMapper;
 import com.hacktues.api.repository.AssignmentRepository;
 import com.hacktues.api.repository.SubjectRepository;
@@ -16,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +22,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentMapper assignmentMapper;
     private final SubjectRepository subjectRepository;
     private final TeacherRepository teacherRepository;
+    private final StorageServiceImpl storageService;
 
     @Override
     public List<AssignmentResponse> getAssignmentsBySubjectId(Long subjectId) {
@@ -33,12 +32,25 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public void createAssignment(Long subjectId, AssignmentCreateRequest assignmentCreateRequest) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Teacher teacher = teacherRepository.findTeacherByUserId(currentUser.getId());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Teacher teacher = teacherRepository.findTeacherByUserId(user.getId());
         Assignment assignment = assignmentMapper.toAssignment(assignmentCreateRequest);
         Subject subject = subjectRepository.findById(subjectId).orElseThrow();
         assignment.setSubject(subject);
         assignment.setTeacher(teacher);
+
+        List<FilePath> filePaths = assignmentCreateRequest.getFiles().stream()
+                .map(file -> {
+                    FilePath filePath = new FilePath();
+                    filePath.setPath(storageService.uploadFile(
+                                    file,
+                                    user.getSchool() + "-" + user.getClass() + "-" + UUID.randomUUID()
+                            )
+                    );
+                    return filePath;
+                })
+                .toList();
+        assignment.setFilePaths(filePaths);
 
         assigmentRepository.save(assignment);
     }

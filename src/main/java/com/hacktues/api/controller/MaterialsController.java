@@ -1,12 +1,11 @@
 package com.hacktues.api.controller;
 
+import com.azure.core.annotation.Post;
+import com.hacktues.api.DTO.MaterialCreateRequest;
 import com.hacktues.api.service.MaterialService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -17,5 +16,11 @@ public class MaterialsController {
     @GetMapping
     public ResponseEntity<?> getMaterialsBySubject(@PathVariable Long subjectId) {
         return ResponseEntity.ok(materialService.getMaterialsBySubjectId(subjectId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createMaterial(@PathVariable Long subjectId, @RequestBody MaterialCreateRequest materialCreateRequest) {
+        materialService.createMaterial(subjectId, materialCreateRequest);
+        return ResponseEntity.ok().build();
     }
 }

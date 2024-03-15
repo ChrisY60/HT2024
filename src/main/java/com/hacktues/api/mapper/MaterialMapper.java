@@ -1,5 +1,6 @@
 package com.hacktues.api.mapper;
 
+import com.hacktues.api.DTO.MaterialCreateRequest;
 import com.hacktues.api.DTO.MaterialResponse;
 import com.hacktues.api.entity.Material;
 import org.mapstruct.Mapper;
@@ -12,4 +13,5 @@ import java.util.List;
 public interface MaterialMapper {
     MaterialResponse toMaterialResponse(Material material);
     List<MaterialResponse> toMaterialResponseList(List<Material> materials);
+    Material toMaterial(MaterialCreateRequest materialCreateRequest);
 }
