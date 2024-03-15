@@ -9,6 +9,7 @@ import com.hacktues.api.mapper.StudentClassMapper;
 import com.hacktues.api.repository.SchoolRepository;
 import com.hacktues.api.repository.StudentClassRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,17 +25,19 @@ public class ConfigController {
     private final StudentClassMapper studentClassMapper;
 
     @PostMapping(path = "/school")
-    public void createSchool(@RequestBody SchoolCreateRequest request) {
+    public ResponseEntity<Void> createSchool(@RequestBody SchoolCreateRequest request) {
         School school = schoolMapper.fromRequest(request);
         schoolRepository.save(school);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/student-class")
-    public void createStudentClass(@RequestBody StudentClassCreateRequest request) {
+    public ResponseEntity<Void> createStudentClass(@RequestBody StudentClassCreateRequest request) {
         StudentClass studentClass = studentClassMapper.fromRequest(request);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow();
         studentClass.setSchool(school);
 
         studentClassRepository.save(studentClass);
+        return ResponseEntity.ok().build();
     }
 }
