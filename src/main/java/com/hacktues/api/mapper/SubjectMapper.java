@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {TeacherMapper.class})
 @Component
 public interface SubjectMapper {
     SubjectResponse toSubjectResponse(Subject subject);

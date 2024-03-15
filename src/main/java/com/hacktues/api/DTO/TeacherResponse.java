@@ -6,5 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class TeacherResponse {
-    private final String name;
+    private final String firstName;
+    private final String middleName;
+    private final String lastName;
 }

@@ -8,6 +8,8 @@ import com.hacktues.api.entity.Student;
 import com.hacktues.api.entity.Teacher;
 import com.hacktues.api.entity.User;
 import com.hacktues.api.enums.Role;
+import com.hacktues.api.mapper.StudentMapper;
+import com.hacktues.api.mapper.TeacherMapper;
 import com.hacktues.api.repository.*;
 import com.hacktues.api.security.JWTGenerator;
 import com.hacktues.api.service.AuthenticationService;
@@ -22,8 +24,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-import static com.hacktues.api.mapper.TeacherMapper.TEACHER_MAPPER;
-import static com.hacktues.api.mapper.StudentMapper.STUDENT_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +36,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JWTGenerator jwtGenerator;
+    private final TeacherMapper TEACHER_MAPPER;
+    private final StudentMapper STUDENT_MAPPER;
 
     @Override
     public UserResponse registerTeacher(TeacherRegisterRequest teacherRegisterRequest) {
