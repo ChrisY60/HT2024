@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "grades")
 @Data
+@Cacheable
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +25,15 @@ public class Grade {
     @Temporal(TemporalType.TIMESTAMP)
     private Date gradedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
     private Subject subject;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 }

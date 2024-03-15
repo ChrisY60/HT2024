@@ -9,6 +9,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "classes")
 @Data
+@Cacheable
 public class StudentClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,11 @@ public class StudentClass {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id", nullable = false)
     private School school;
 
-    @OneToMany(mappedBy = "studentClass")
+    @OneToMany(mappedBy = "studentClass", fetch = FetchType.LAZY)
     @Column(nullable = false)
     private List<Subject> subjects;
 }

@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "teachers")
 @Data
+@Cacheable
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +19,7 @@ public class Teacher {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     @Column(nullable = false)
     private List<Subject> subjects;
 }

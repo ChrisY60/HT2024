@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "assignments")
 @Data
+@Cacheable
 public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +26,23 @@ public class Assignment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
 
-    @ManyToOne
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "assignment_files",
+            joinColumns = @JoinColumn(name = "assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "file_id")
+    )
+    private List<FilePath> filePaths;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
     private Subject subject;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "assignment")
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY)
     @Column(nullable = false)
     private List<Submission> submissions;
 }

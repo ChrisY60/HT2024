@@ -44,7 +44,6 @@ public class SubmissionServiceImpl implements SubmissionService {
                             user.getSchool() + "-" + user.getClass() + "-" + UUID.randomUUID()
                         )
                     );
-                    filePath.setSubmission(submission);
                     return filePath;
                 })
                 .toList();

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SubjectService {
     List<SubjectResponse> getSubjects();
+    //void subjectGradesToCSV()
 }

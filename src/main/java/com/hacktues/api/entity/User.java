@@ -13,6 +13,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 @Data
+@Cacheable
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id", referencedColumnName = "id", nullable = false)
     private School school;
 

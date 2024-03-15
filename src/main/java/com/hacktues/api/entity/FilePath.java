@@ -6,6 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "files")
 @Data
+@Cacheable
 public class FilePath {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +15,4 @@ public class FilePath {
 
     @Column(name = "path")
     private String path;
-
-    @ManyToOne
-    @JoinColumn(name = "submission_id", referencedColumnName = "id", nullable = false)
-    private Submission submission;
 }

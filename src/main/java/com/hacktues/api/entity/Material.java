@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "materials")
 @Data
+@Cacheable
 public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +26,19 @@ public class Material {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "material_files",
+            joinColumns = @JoinColumn(name = "material_id"),
+            inverseJoinColumns = @JoinColumn(name = "file_id")
+    )
+    private List<FilePath> filePaths;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
     private Subject subject;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 }

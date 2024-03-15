@@ -8,6 +8,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "schools")
 @Data
+@Cacheable
 public class School {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
