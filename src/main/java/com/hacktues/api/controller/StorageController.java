@@ -24,8 +24,11 @@ public class StorageController {
 
     @PostMapping("/files")
     public void uploadFiles(@RequestParam("files") List<MultipartFile> files) {
+        System.out.println("In uploadFiles method");
+        System.out.println("Files: " + files.size());
         for (MultipartFile file : files) {
             storageService.uploadFile(file, UUID.randomUUID().toString());
         }
+        System.out.println("Files uploaded");
     }
 }
