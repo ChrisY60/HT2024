@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import { useAuth } from "./Auth";
 import * as jose from "jose";
+import axios from "axios";
 
 const Subject = () => {
     const [displayAssignments, setDisplayAssignments] = useState(true);
     const [user, setUser] = useState('');
     const [assignmentString, setAssignmentString] = useState("");
     const { token, isTokenExpired } = useAuth();
-    const subjectData = {
+    const { id } = useParams();
+    const [subjectData, setSubjects] = useState([]);
+    /*const subjectData = {
         name: 'Mathematics',
         teacher: 'Mr. Smith',
         assignments: [
@@ -21,12 +24,22 @@ const Subject = () => {
             { title: 'Additional Practice Sheets', datePublished: '2024-03-05' },
             { title: 'Video Lecture Series', datePublished: '2024-03-10' }
         ]
-    };
+    };*/
 
     const navigate = useNavigate(); // Initialize navigate hook
 
     useEffect(() => {
         getCurrentUser();
+        const headers = {Authorization: `Bearer ${token}`};
+        axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
+            .then((res) => {
+                console.log(res.data);
+                const subjectData = res.data;
+                setSubjects(subjectData);
+            })
+            .catch((err) => {
+                console.error('Error fetching subjects:', err);
+            });
     }, [user]);
 
     const getCurrentUser = async () => {
@@ -48,6 +61,28 @@ const Subject = () => {
 
     const handleToggle = () => {
         setDisplayAssignments(!displayAssignments);
+        const headers = {Authorization: `Bearer ${token}`};
+        if(displayAssignments){
+            axios.get(`http://localhost:8080/api/v1/subjects/${id}/materials`, {headers})
+                .then((res) => {
+                    console.log(res.data);
+                    const subjectData = res.data;
+                    setSubjects(subjectData);
+                })
+                .catch((err) => {
+                    console.error('Error fetching subjects:', err);
+                });
+        } else {
+            axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
+                .then((res) => {
+                    console.log(res.data);
+                    const subjectData = res.data;
+                    setSubjects(subjectData);
+                })
+                .catch((err) => {
+                    console.error('Error fetching subjects:', err);
+                });
+        }
     };
 
     const passAssignment = (assignment) => {
@@ -81,20 +116,20 @@ const Subject = () => {
                     <h3>Assignments:</h3>
                     <div className="d-flex justify-content-center">
                         <div className="card-deck">
-                            {subjectData.assignments.map((assignment, index) => (
+                            {subjectData.map((assignment, index) => (
                                 <React.Fragment key={index}>
                                     {user === "STUDENT" ? (
                                         <a href={`/assignment`} className="card mb-3 text-decoration-none">
                                             <div className="card-body">
-                                                <h5 className="card-title">Title: {assignment.title}</h5>
-                                                <p className="card-text">End Date: {assignment.endDate}</p>
+                                                <h5 className="card-title">Title: {assignment.name}</h5>
+                                                <p className="card-text">End Date: {assignment.deadline}</p>
                                             </div>
                                         </a>
                                     ) : user === "TEACHER" ? (
                                         <a href={`/students?${assignmentString}`} onClick={() => passAssignment(assignment)} className="card mb-3 text-decoration-none">
                                             <div className="card-body">
-                                                <h5 className="card-title">Title: {assignment.title}</h5>
-                                                <p className="card-text">End Date: {assignment.endDate}</p>
+                                                <h5 className="card-title">Title: {assignment.name}</h5>
+                                                <p className="card-text">End Date: {assignment.deadline}</p>
                                             </div>
                                         </a>
                                     ) : null}
@@ -108,11 +143,11 @@ const Subject = () => {
                     <h3>Materials:</h3>
                     <div className="d-flex justify-content-center">
                         <div className="card-deck">
-                            {subjectData.materials.map((material, index) => (
+                            {subjectData.map((material, index) => (
                                 <div className="card mb-3" key={index}>
                                     <div className="card-body">
-                                        <h5 className="card-title">Title: {material.title}</h5>
-                                        <p className="card-text">Date Published: {material.datePublished}</p>
+                                        <h5 className="card-title">Title: {material.name}</h5>
+                                        <p className="card-text">Date Published: {material.date}</p>
                                     </div>
                                 </div>
                             ))}
