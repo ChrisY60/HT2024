@@ -26,14 +26,14 @@ public class Assignment {
     private Date deadline;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
     private Subject subject;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 
-    @OneToMany
-    @JoinColumn(name = "assignment_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "assignment")
+    @Column(nullable = false)
     private List<Submission> submissions;
 }

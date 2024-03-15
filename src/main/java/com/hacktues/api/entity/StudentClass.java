@@ -22,8 +22,10 @@ public class StudentClass {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "school_id", nullable = false)
     private School school;
 
     @OneToMany(mappedBy = "studentClass")
+    @Column(nullable = false)
     private List<Subject> subjects;
 }

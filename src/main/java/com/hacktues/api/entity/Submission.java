@@ -28,10 +28,10 @@ public class Submission {
     private Date gradedDate;
 
     @ManyToOne
-    @JoinColumn(name = "assignment_id", referencedColumnName = "id")
+    @JoinColumn(name = "assignment_id", referencedColumnName = "id", nullable = false)
     private Assignment assignment;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
     private Student student;
 }

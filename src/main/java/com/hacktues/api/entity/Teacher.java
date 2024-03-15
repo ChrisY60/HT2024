@@ -15,9 +15,10 @@ public class Teacher {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "teacher")
+    @Column(nullable = false)
     private List<Subject> subjects;
 }

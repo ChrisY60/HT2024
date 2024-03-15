@@ -44,11 +44,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         Teacher teacher = TEACHER_MAPPER.fromRegisterRequest(teacherRegisterRequest);
+
         teacher.getUser().setPassword(passwordEncoder.encode(teacherRegisterRequest.getPassword()));
         teacher.getUser().setRole(Role.valueOf("TEACHER"));
         teacher.getUser().setSchool(schoolRepository.findByName(
                 teacherRegisterRequest.getSchool()).orElseThrow(() -> new RuntimeException("School not found!"))
         );
+
+        UUID accessCode = UUID.fromString(teacherRegisterRequest.getAccessCode());
+        if (!teacher.getUser().getSchool().getAccessCode().equals(accessCode)) {
+            throw new RuntimeException("Invalid access code!");
+        }
+
         teacherRepository.save(teacher);
 
         UserResponse userResponse = new UserResponse();
@@ -64,6 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         Student student = STUDENT_MAPPER.fromRegisterRequest(studentRegisterRequest);
+
         student.getUser().setPassword(passwordEncoder.encode(studentRegisterRequest.getPassword()));
         student.getUser().setRole(Role.valueOf("STUDENT"));
         student.getUser().setSchool(schoolRepository.findByName(
@@ -73,12 +81,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 studentRegisterRequest.getStudentClass())
                 .orElseThrow(() -> new RuntimeException("Class not found!"))
         );
+
         UUID accessCode = UUID.fromString(studentRegisterRequest.getAccessCode());
-        System.out.println(student.getStudentClass().getAccessCode());
-        System.out.println(accessCode);
         if (!student.getStudentClass().getAccessCode().equals(accessCode)) {
             throw new RuntimeException("Invalid access code!");
         }
+
         studentRepository.save(student);
 
         UserResponse userResponse = new UserResponse();
