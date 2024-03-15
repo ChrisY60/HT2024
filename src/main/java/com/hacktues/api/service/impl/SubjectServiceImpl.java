@@ -7,8 +7,6 @@ import com.hacktues.api.entity.User;
 import com.hacktues.api.mapper.SubjectMapper;
 import com.hacktues.api.repository.StudentRepository;
 import com.hacktues.api.repository.SubjectRepository;
-import com.hacktues.api.repository.TeacherRepository;
-import com.hacktues.api.repository.UserRepository;
 import com.hacktues.api.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

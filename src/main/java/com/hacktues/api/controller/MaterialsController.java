@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/v1/materials")
+@RequestMapping(path = "/api/v1/subjects/{subjectId}/materials")
 public class MaterialsController {
     private final MaterialService materialService;
 
-    @GetMapping(path = "/{subjectName}")
-    public List<MaterialResponse> getMaterialsBySubject(@PathVariable String subjectName) {
-        return materialService.getMaterialsBySubject(subjectName);
+    @GetMapping
+    public List<MaterialResponse> getMaterialsBySubject(@PathVariable Long subjectId) {
+        return materialService.getMaterialsBySubjectId(subjectId);
     }
 }

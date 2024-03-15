@@ -17,8 +17,8 @@ public class MaterialServiceImpl implements MaterialService {
     private final MaterialMapper materialMapper;
 
     @Override
-    public List<MaterialResponse> getMaterialsBySubject(String subjectName) {
-        List<Material> materials = materialRepository.findBySubjectName(subjectName);
+    public List<MaterialResponse> getMaterialsBySubjectId(Long subjectId) {
+        List<Material> materials = materialRepository.findBySubjectId(subjectId);
         return materialMapper.toMaterialResponseList(materials);
     }
 }

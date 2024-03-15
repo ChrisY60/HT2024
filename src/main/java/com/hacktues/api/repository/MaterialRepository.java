@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MaterialRepository extends JpaRepository<Material, Long> {
-    List<Material> findBySubjectName(String subjectName);
+    List<Material> findBySubjectId(Long subjectId);
 }

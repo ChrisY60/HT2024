@@ -7,6 +7,7 @@ import com.hacktues.api.entity.Submission;
 import com.hacktues.api.entity.User;
 import com.hacktues.api.mapper.SubmissionMapper;
 import com.hacktues.api.repository.AssignmentRepository;
+import com.hacktues.api.repository.StudentRepository;
 import com.hacktues.api.repository.SubmissionRepository;
 import com.hacktues.api.repository.UserRepository;
 import com.hacktues.api.service.SubmissionService;
@@ -18,10 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SubmissionServiceImpl implements SubmissionService {
-    SubmissionRepository submissionRepository;
-    SubmissionMapper submissionMapper;
-    AssignmentRepository assignmentRepository;
-    UserRepository userRepository;
+    private final SubmissionRepository submissionRepository;
+    private final SubmissionMapper submissionMapper;
+    private final AssignmentRepository assignmentRepository;
+    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public void submit(Long assignmentId, SubmissionRequest submissionRequest) {
@@ -30,7 +32,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(currentUserEmail).orElseThrow();
         Submission submission = submissionMapper.toSubmission(submissionRequest);
-        Student student = Student.class.cast(user);
+        Student student = studentRepository.findStudentByUserId(user.getId());
 
         submission.setAssignment(assignment);
         submission.setStudent(student);
