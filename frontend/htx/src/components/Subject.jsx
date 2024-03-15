@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
-import {useAuth} from "./Auth";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import { useAuth } from "./Auth";
 import * as jose from "jose";
 
 const Subject = () => {
@@ -23,21 +23,29 @@ const Subject = () => {
         ]
     };
 
+    const navigate = useNavigate(); // Initialize navigate hook
+
     useEffect(() => {
         getCurrentUser();
     }, [user]);
 
     const getCurrentUser = async () => {
-        const decodedToken = jose.decodeJwt(token);
-        if (decodedToken && decodedToken.role) {
-            const userRole = decodedToken.role;
-            console.log(userRole);
-            const headers = {Authorization: `Bearer ${token}`};
-            setUser(userRole);
-        } else {
-            console.error('Unable to retrieve user ID from JWT token.');
+        try {
+            const decodedToken = jose.decodeJwt(token);
+            if (decodedToken && decodedToken.role) {
+                const userRole = decodedToken.role;
+                setUser(userRole);
+            } else {
+                console.error('Unable to retrieve user ID from JWT token.');
+                navigate('/login');
+            }
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+
+            navigate('/login');
         }
-    }
+    };
+
     const handleToggle = () => {
         setDisplayAssignments(!displayAssignments);
     };
@@ -46,7 +54,7 @@ const Subject = () => {
         console.log(assignment);
         const queryString = `id=${assignment.id}&title=${encodeURIComponent(assignment.title)}&endDate=${assignment.endDate}`;
         setAssignmentString(queryString);
-    }
+    };
 
     return (
         <div className="subject text-center">
@@ -83,7 +91,7 @@ const Subject = () => {
                                             </div>
                                         </a>
                                     ) : user === "TEACHER" ? (
-                                            <a href={`/students?${assignmentString}`} onClick={() => passAssignment(assignment)} className="card mb-3 text-decoration-none">
+                                        <a href={`/students?${assignmentString}`} onClick={() => passAssignment(assignment)} className="card mb-3 text-decoration-none">
                                             <div className="card-body">
                                                 <h5 className="card-title">Title: {assignment.title}</h5>
                                                 <p className="card-text">End Date: {assignment.endDate}</p>
@@ -114,7 +122,6 @@ const Subject = () => {
             )}
         </div>
     );
-
 };
 
 export default Subject;

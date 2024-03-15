@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Grades = ({ grades }) => {
     const dummyGrades = [
@@ -9,8 +9,24 @@ const Grades = ({ grades }) => {
         { subject: 'Art', grades: [{ value: 5, description: 'Painting', date: '2023-01-20' }, { value: 6, description: 'Sculpture', date: '2023-01-25' }] },
     ];
 
-    const [hoveredGrade, setHoveredGrade] = useState(null);
-    const [hoveredGradePosition, setHoveredGradePosition] = useState({ x: 0, y: 0 });
+    const [clickedGrade, setClickedGrade] = useState(null);
+    const [clickedGradePosition, setClickedGradePosition] = useState({ x: 0, y: 0 });
+
+    const tooltipRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
+                setClickedGrade(null);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
 
     const getGradeColor = (gradeValue) => {
         const grade = gradeValue.value;
@@ -30,14 +46,11 @@ const Grades = ({ grades }) => {
         }
     };
 
-    const handleMouseEnter = (gradeValue, event) => {
-        setHoveredGrade(gradeValue);
+    const handleGradeClick = (gradeValue, event) => {
+        event.stopPropagation();
+        setClickedGrade(gradeValue);
         const gradeRect = event.target.getBoundingClientRect();
-        setHoveredGradePosition({ x: gradeRect.right, y: gradeRect.top });
-    };
-
-    const handleMouseLeave = () => {
-        setHoveredGrade(null);
+        setClickedGradePosition({ x: gradeRect.right, y: gradeRect.top });
     };
 
     return (
@@ -61,8 +74,7 @@ const Grades = ({ grades }) => {
                                             key={i}
                                             className="grade-box"
                                             style={{ backgroundColor: getGradeColor(gradeValue) }}
-                                            onMouseEnter={(event) => handleMouseEnter(gradeValue, event)}
-                                            onMouseLeave={handleMouseLeave}
+                                            onClick={(event) => handleGradeClick(gradeValue, event)}
                                         >
                                             {gradeValue.value}
                                         </span>
@@ -73,10 +85,11 @@ const Grades = ({ grades }) => {
                     </tbody>
                 </table>
             </div>
-            {hoveredGrade && (
-                <div className="hovered-grade" style={{ position: 'absolute', top: hoveredGradePosition.y, left: hoveredGradePosition.x, transform: 'translate(-100%, -100%)' }}>
-                    <p>Description: {hoveredGrade.description}</p>
-                    <p>Date: {hoveredGrade.date}</p>
+            {clickedGrade && (
+                <div ref={tooltipRef} className="clicked-grade" style={{ position: 'absolute', top: clickedGradePosition.y, left: clickedGradePosition.x, transform: 'translate(-100%, -100%)' }}>
+                    <p>Grade: {clickedGrade.value}</p> 
+                    <p>Description: {clickedGrade.description}</p>
+                    <p>Date: {clickedGrade.date}</p>
                 </div>
             )}
         </div>
