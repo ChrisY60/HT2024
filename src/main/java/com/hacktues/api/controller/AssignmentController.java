@@ -5,6 +5,9 @@ import com.hacktues.api.service.AssignmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -13,8 +16,10 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @PostMapping
-    public ResponseEntity<Void> createAssignment(@PathVariable Long subjectId, @RequestBody AssignmentCreateRequest assignmentCreateRequest) {
-        assignmentService.createAssignment(subjectId, assignmentCreateRequest);
+    public ResponseEntity<Void> createAssignment(@PathVariable Long subjectId,
+                                                 @RequestPart AssignmentCreateRequest assignmentCreateRequest,
+                                                 @RequestPart List<MultipartFile> files) {
+        assignmentService.createAssignment(subjectId, assignmentCreateRequest, files);
         return ResponseEntity.ok().build();
     }
 

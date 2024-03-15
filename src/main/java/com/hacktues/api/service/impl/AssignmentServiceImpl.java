@@ -11,6 +11,7 @@ import com.hacktues.api.service.AssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public void createAssignment(Long subjectId, AssignmentCreateRequest assignmentCreateRequest) {
+    public void createAssignment(Long subjectId, AssignmentCreateRequest assignmentCreateRequest, List<MultipartFile> files) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Teacher teacher = teacherRepository.findTeacherByUserId(user.getId());
         Assignment assignment = assignmentMapper.toAssignment(assignmentCreateRequest);
@@ -39,7 +40,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setSubject(subject);
         assignment.setTeacher(teacher);
 
-        List<FilePath> filePaths = assignmentCreateRequest.getFiles().stream()
+        List<FilePath> filePaths = files.stream()
                 .map(file -> {
                     FilePath filePath = new FilePath();
                     filePath.setPath(storageService.uploadFile(
