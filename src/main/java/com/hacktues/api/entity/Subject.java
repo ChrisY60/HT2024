@@ -16,9 +16,11 @@ public class Subject {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "class_id", referencedColumnName = "id", nullable = false)
     private StudentClass studentClass;
 
     @ManyToOne
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
 }
 

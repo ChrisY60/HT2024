@@ -17,4 +17,6 @@ public class TeacherRegisterRequest {
     private String password;
     @NonNull
     private String school;
+    @NonNull
+    private String accessCode;
 }
