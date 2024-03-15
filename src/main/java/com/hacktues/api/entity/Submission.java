@@ -18,8 +18,9 @@ public class Submission {
     @OneToMany(mappedBy = "submission")
     private List<FilePath> filePaths;
 
-    @Column(name = "grade")
-    private Double grade;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = false)
+    private Grade grade;
 
     @Column(name = "comment")
     private String comment;

@@ -3,6 +3,8 @@ package com.hacktues.api.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "subjects")
 @Data
@@ -22,5 +24,9 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = false)
     private Teacher teacher;
+
+    @OneToMany
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    private List<Grade> grades;
 }
 
