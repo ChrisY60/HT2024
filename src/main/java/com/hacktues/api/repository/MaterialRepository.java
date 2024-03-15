@@ -1,6 +1,5 @@
 package com.hacktues.api.repository;
 
-import com.hacktues.api.entity.Assignment;
 import com.hacktues.api.entity.Material;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
