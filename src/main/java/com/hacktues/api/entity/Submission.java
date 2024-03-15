@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "submissions")
@@ -14,8 +15,8 @@ public class Submission {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
+    @OneToMany(mappedBy = "submission")
+    private List<FilePath> filePaths;
 
     @Column(name = "grade")
     private Double grade;

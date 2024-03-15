@@ -124,4 +124,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return userResponse;
     }
+
+    @Override
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }

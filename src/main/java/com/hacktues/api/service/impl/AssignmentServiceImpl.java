@@ -23,7 +23,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assigmentRepository;
     private final AssignmentMapper assignmentMapper;
     private final SubjectRepository subjectRepository;
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
     @Override
     public List<AssignmentResponse> getAssignmentsBySubjectId(Long subjectId) {
