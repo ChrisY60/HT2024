@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "school_id", referencedColumnName = "id", nullable = false)
     private School school;
 

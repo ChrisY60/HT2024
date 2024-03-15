@@ -41,15 +41,10 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setTeacher(teacher);
 
         List<FilePath> filePaths = files.stream()
-                .map(file -> {
-                    FilePath filePath = new FilePath();
-                    filePath.setPath(storageService.uploadFile(
-                                    file,
-                                    user.getSchool() + "-" + user.getClass() + "-" + UUID.randomUUID()
-                            )
-                    );
-                    return filePath;
-                })
+                .map(file -> storageService.uploadFile(
+                            file,
+                            user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
+                    ))
                 .toList();
         assignment.setFilePaths(filePaths);
 

@@ -1,6 +1,8 @@
 package com.hacktues.api.service.impl;
 
 import com.azure.storage.blob.*;
+import com.hacktues.api.entity.FilePath;
+import com.hacktues.api.repository.FileRepository;
 import com.hacktues.api.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +18,10 @@ public class StorageServiceImpl implements StorageService {
     @Value("${spring.cloud.azure.storage.blob.endpoint}")
     private String endpoint;
 
+    private final FileRepository fileRepository;
+
     @Override
-    public String uploadFile(MultipartFile file, String blobName) {
+    public FilePath uploadFile(MultipartFile file, String blobName) {
         BlobClient blobClient = new BlobClientBuilder()
                 .endpoint(endpoint)
                 .containerName(containerName)
@@ -25,7 +29,10 @@ public class StorageServiceImpl implements StorageService {
                 .buildClient();
         try {
             blobClient.upload(file.getInputStream(), file.getSize(), true);
-            return blobClient.getBlobUrl();
+            FilePath filePath = new FilePath();
+            filePath.setPath(blobClient.getBlobUrl());
+            fileRepository.save(filePath);
+            return filePath;
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload file", e);
         }

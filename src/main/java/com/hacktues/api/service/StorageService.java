@@ -1,7 +1,8 @@
 package com.hacktues.api.service;
 
+import com.hacktues.api.entity.FilePath;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StorageService {
-    String uploadFile(MultipartFile file, String blobName);
+    FilePath uploadFile(MultipartFile file, String blobName);
 }

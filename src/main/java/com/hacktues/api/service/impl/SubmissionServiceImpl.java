@@ -37,15 +37,10 @@ public class SubmissionServiceImpl implements SubmissionService {
         submission.setAssignment(assignment);
         submission.setStudent(student);
         List<FilePath> filePaths = submissionRequest.getFiles().stream()
-                .map(file -> {
-                    FilePath filePath = new FilePath();
-                    filePath.setPath(storageService.uploadFile(
-                            file,
-                            user.getSchool() + "-" + user.getClass() + "-" + UUID.randomUUID()
-                        )
-                    );
-                    return filePath;
-                })
+                .map(file -> storageService.uploadFile(
+                        file,
+                        user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
+                    ))
                 .toList();
         submission.setFilePaths(filePaths);
         submissionRepository.save(submission);

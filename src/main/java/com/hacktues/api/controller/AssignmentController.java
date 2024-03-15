@@ -17,8 +17,8 @@ public class AssignmentController {
 
     @PostMapping
     public ResponseEntity<Void> createAssignment(@PathVariable Long subjectId,
-                                                 @RequestPart AssignmentCreateRequest assignmentCreateRequest,
-                                                 @RequestPart List<MultipartFile> files) {
+                                                 @RequestPart("assignmentCreateRequest") AssignmentCreateRequest assignmentCreateRequest,
+                                                 @RequestPart("files") List<MultipartFile> files) {
         assignmentService.createAssignment(subjectId, assignmentCreateRequest, files);
         return ResponseEntity.ok().build();
     }

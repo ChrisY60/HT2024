@@ -1,16 +1,19 @@
 package com.hacktues.api.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @RequiredArgsConstructor
 public class AssignmentCreateRequest {
-    private final String name;
-    private final String description;
-    private final Date deadline;
+    private String name;
+    private String description;
+
+    @JsonProperty("deadline")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date deadline;
 }

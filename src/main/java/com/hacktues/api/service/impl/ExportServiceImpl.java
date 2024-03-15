@@ -95,4 +95,9 @@ public class ExportServiceImpl implements ExportService {
             throw new RuntimeException("Failed to export grades to Excel!");
         }
     }
+
+    @Override
+    public byte[] exportGradesFromSubjectToCSV(Long subjectId) {
+        return new byte[0];
+    }
 }

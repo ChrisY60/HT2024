@@ -41,15 +41,10 @@ public class MaterialServiceImpl implements MaterialService {
         material.setSubject(subject);
 
         List<FilePath> filePaths = materialCreateRequest.getFiles().stream()
-                .map(file -> {
-                    FilePath filePath = new FilePath();
-                    filePath.setPath(storageService.uploadFile(
-                                    file,
-                                    user.getSchool() + "-" + user.getClass() + "-" + UUID.randomUUID()
-                            )
-                    );
-                    return filePath;
-                })
+                .map(file -> storageService.uploadFile(
+                                file,
+                                user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
+                        ))
                 .toList();
         material.setFilePaths(filePaths);
         material.setDate(new Date());
