@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useAuth } from "./Auth";
 
 const Assignments = ({ title, subject, description, dueDate }) => {
+    const { token } = useAuth();
     const assignment = {
         title: 'Math Assignment',
         subject: 'Mathematics',
@@ -16,11 +19,22 @@ const Assignments = ({ title, subject, description, dueDate }) => {
         setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
 
-
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Files submitted:', files);
+
+        const formData = new FormData();
+        files.forEach(file => {
+            formData.append('files', file);
+        });
+
+        try {
+            const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' };
+            await axios.post('http://192.168.199.73:8080/api/v1/storage/files', formData, { headers });
+            console.log('Files uploaded successfully');
+        } catch (error) {
+            console.error('Error uploading files:', error);
+        }
     };
 
     return (
@@ -51,7 +65,6 @@ const Assignments = ({ title, subject, description, dueDate }) => {
                         </div>
                         <button type="submit" className="btn btn-success btn-lighten">Hand In</button>
                     </form>
-                    
                 </div>
             </div>
         </div>
