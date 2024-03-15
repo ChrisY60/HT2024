@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @RequiredArgsConstructor
 public class AssignmentResponse {
+    private final Long id;
     private final String name;
     private final Date deadline;
     private final String description;
