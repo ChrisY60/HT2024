@@ -11,6 +11,7 @@ import com.hacktues.api.service.StorageService;
 import com.hacktues.api.service.SubmissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,21 +27,22 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final AuthenticationService authenticationService;
 
     @Override
-    public void submit(Long assignmentId, SubmissionRequest submissionRequest) {
+    public void submit(Long assignmentId, List<MultipartFile> files) {
         Assignment assignment = assignmentRepository
                 .findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found!"));
         User user = authenticationService.getCurrentUser();
-        Submission submission = submissionMapper.toSubmission(submissionRequest);
+        Submission submission = new Submission();
         Student student = studentRepository.findStudentByUserId(user.getId());
 
         submission.setAssignment(assignment);
         submission.setStudent(student);
-        List<FilePath> filePaths = submissionRequest.getFiles().stream()
+
+        List<FilePath> filePaths = files.stream()
                 .map(file -> storageService.uploadFile(
                         file,
                         user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
-                    ))
+                ))
                 .toList();
         submission.setFilePaths(filePaths);
         submissionRepository.save(submission);

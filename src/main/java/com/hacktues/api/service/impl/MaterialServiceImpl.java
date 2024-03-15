@@ -11,6 +11,7 @@ import com.hacktues.api.service.MaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public void createMaterial(Long subjectId, MaterialCreateRequest materialCreateRequest) {
+    public void createMaterial(Long subjectId, MaterialCreateRequest materialCreateRequest, List<MultipartFile> files) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Teacher teacher = teacherRepository.findTeacherByUserId(user.getId());
         Material material = materialMapper.toMaterial(materialCreateRequest);
@@ -40,11 +41,11 @@ public class MaterialServiceImpl implements MaterialService {
         material.setTeacher(teacher);
         material.setSubject(subject);
 
-        List<FilePath> filePaths = materialCreateRequest.getFiles().stream()
+        List<FilePath> filePaths = files.stream()
                 .map(file -> storageService.uploadFile(
-                                file,
-                                user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
-                        ))
+                        file,
+                        user.getSchool().getName() + "-" + user.getClass().getName() + "-" + UUID.randomUUID()
+                ))
                 .toList();
         material.setFilePaths(filePaths);
         material.setDate(new Date());

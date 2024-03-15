@@ -6,6 +6,9 @@ import com.hacktues.api.service.MaterialService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -19,8 +22,10 @@ public class MaterialsController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createMaterial(@PathVariable Long subjectId, @RequestBody MaterialCreateRequest materialCreateRequest) {
-        materialService.createMaterial(subjectId, materialCreateRequest);
+    public ResponseEntity<Void> createMaterial(@PathVariable Long subjectId,
+                                               @RequestPart MaterialCreateRequest materialCreateRequest,
+                                               @RequestPart List<MultipartFile> files) {
+        materialService.createMaterial(subjectId, materialCreateRequest, files);
         return ResponseEntity.ok().build();
     }
 }

@@ -11,5 +11,4 @@ import java.util.List;
 public class MaterialCreateRequest {
     private final String name;
     private final String description;
-    private final List<MultipartFile> files;
 }

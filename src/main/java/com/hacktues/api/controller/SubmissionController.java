@@ -4,6 +4,7 @@ import com.hacktues.api.DTO.SubmissionRequest;
 import com.hacktues.api.service.SubmissionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class SubmissionController {
     private final SubmissionService submissionService;
 
     @PostMapping
-    public void submitAssignment(@PathVariable Long assignment_id, @RequestBody SubmissionRequest submissionRequest) {
-        submissionService.submit(assignment_id, submissionRequest);
+    public void submitAssignment(@PathVariable Long assignment_id,
+                                 @RequestPart List<MultipartFile> files) {
+        submissionService.submit(assignment_id, files);
     }
 
     @GetMapping

@@ -24,7 +24,7 @@ public class Submission {
     private List<FilePath> filePaths;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = true)
     private Grade grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
