@@ -1,5 +1,6 @@
 package com.hacktues.api.controller;
 
+import com.hacktues.api.service.GradeService;
 import com.hacktues.api.service.GradesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/v1/grades")
-public class GradesController {
-    private GradesService gradesService;
+public class GradeController {
+    private final GradeService gradeService;
 
     @GetMapping
     public ResponseEntity<?> getGrades() {
-        return ResponseEntity.ok(gradesService.getGrades());
+        return ResponseEntity.ok(gradeService.getGrades());
     }
 }
