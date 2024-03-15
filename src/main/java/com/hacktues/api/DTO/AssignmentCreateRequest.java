@@ -11,5 +11,4 @@ public class AssignmentCreateRequest {
     private final String name;
     private final String description;
     private final Date deadline;
-    private final String studentClassName;
 }
