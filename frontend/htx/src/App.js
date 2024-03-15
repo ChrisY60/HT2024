@@ -10,6 +10,7 @@ import Assignments from "./components/Assignments";
 import Subject from "./components/Subject"
 import Grades from "./components/Grades";
 import {AuthProvider} from "./components/Auth";
+import StudentAssignments from "./components/StudentAssignments";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <Route path={"/assignment"} element={<Assignments />} />
                     <Route path={"/subject"} element={<Subject />} />
                     <Route path={"/grades"} element={<Grades />} />
+                    <Route path={"/students"} element={<StudentAssignments />} />
                 </Routes>
             </AuthProvider>
         </Router>
