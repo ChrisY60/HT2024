@@ -1,7 +1,6 @@
 package com.hacktues.api.controller;
 
 import com.hacktues.api.service.GradeService;
-import com.hacktues.api.service.GradesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
