@@ -15,6 +15,9 @@ public class Submission {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "handed_in")
+    private boolean handedIn;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "submission_files",

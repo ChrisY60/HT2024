@@ -37,6 +37,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         submission.setAssignment(assignment);
         submission.setStudent(student);
+        submission.setHandedIn(true);
 
         List<FilePath> filePaths = files.stream()
                 .map(file -> storageService.uploadFile(
