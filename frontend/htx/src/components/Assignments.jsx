@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import { useAuth } from "./Auth";
 
-const Assignments = ({ title, subject, description, dueDate }) => {
+const Assignments = () => {
     const { token } = useAuth();
     const assignment = {
         title: 'Math Assignment',

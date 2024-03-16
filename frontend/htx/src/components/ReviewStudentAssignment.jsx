@@ -10,11 +10,25 @@ const ReviewStudentAssignment = () => {
     const studentId = queryParams.get('studentId');
     const title = queryParams.get('title');
     const deadline = queryParams.get('deadline');
+    const [isGraded, setIsGraded] = useState(false);
+    const [grade, setGrade] = useState(0);
+    const [comment, setComment] = useState('');
+    const [submissionId, setSubmissionId] = useState('');
 
-    useEffect(async () => {
-        await axios.get(`http://localhost:8080/api/v1/assignments/${assignmentId}/submissions/${studentId}`, {headers: {Authorization: `Bearer ${token}`}}).then((res) => {
-            console.log('Student assignment:', res.data);
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8080/api/v1/assignments/${assignmentId}/submissions/${studentId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setSubmissionId(res.data.id);
+                console.log('Student assignment:', res.data);
+            } catch (error) {
+                console.error('Error fetching student assignment:', error);
+            }
+        };
+
+        fetchData();
     }, [token, assignmentId, studentId]);
 
     const handleFileChange = (e) => {
@@ -24,21 +38,13 @@ const ReviewStudentAssignment = () => {
     };
 
     const handleSubmit = async (e) => {
+        const headers = { Authorization: `Bearer ${token}` };
         e.preventDefault();
-        console.log('Files submitted:', files);
-
-        const formData = new FormData();
-        files.forEach(file => {
-            formData.append('files', file);
-        });
-
-        try {
-            const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' };
-            await axios.post('http://localhost:8080/api/v1/storage/files', formData, { headers });
-            console.log('Files uploaded successfully');
-        } catch (error) {
-            console.error('Error uploading files:', error);
-        }
+        await axios.post(`http://localhost:8080/api/v1/submissions/${submissionId}/grades`, {
+            grade: grade,
+            comment: comment
+        }, { headers });
+        setIsGraded(true);
     };
 
     return (
@@ -50,13 +56,7 @@ const ReviewStudentAssignment = () => {
                     <hr />
                     <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
-                            <div className="col-12">
-                                <label htmlFor="fileInput" className="form-label">Attach File:</label>
-                            </div>
-                            <div className="col-12">
-                                <input type="file" id="fileInput" className="form-control-file" onChange={handleFileChange} multiple />
-                            </div>
-                            <div className="mt-3">
+                            <div className="col-12 mt-3">
                                 {files.map((file, index) => (
                                     <div key={index} className="d-flex align-items-center">
                                         <img src="https://cdn-icons-png.flaticon.com/512/2246/2246713.png" alt="file icon" style={{ width: '24px', height: '24px', marginRight: '8px' }} />
@@ -64,13 +64,36 @@ const ReviewStudentAssignment = () => {
                                     </div>
                                 ))}
                             </div>
+                            {!isGraded && (
+                                <>
+                                    <div className="col-12">
+                                        <label htmlFor="grade" className="form-label">Grade:</label>
+                                        <input
+                                            type="number"
+                                            id="grade"
+                                            className="form-control"
+                                            onChange={(e) => setGrade(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="col-12">
+                                        <label htmlFor="comment" className="form-label">Comment:</label>
+                                        <input
+                                            type="text"
+                                            id="comment"
+                                            className="form-control"
+                                            onChange={(e) => setComment(e.target.value)}
+                                        />
+                                    </div>
+                                </>
+                            )}
                         </div>
-                        <button type="submit" className="btn btn-success btn-lighten">Hand In</button>
+                        <button type="submit" className="btn btn-success btn-lighten">Grade</button>
                     </form>
                 </div>
             </div>
         </div>
     );
+
 };
 
 export default ReviewStudentAssignment;
