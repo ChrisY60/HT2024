@@ -1,8 +1,6 @@
 package com.hacktues.api.service.impl;
 
-import com.hacktues.api.DTO.SubmissionRequest;
 import com.hacktues.api.entity.*;
-import com.hacktues.api.mapper.SubmissionMapper;
 import com.hacktues.api.repository.AssignmentRepository;
 import com.hacktues.api.repository.StudentRepository;
 import com.hacktues.api.repository.SubmissionRepository;
@@ -20,7 +18,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
-    private final SubmissionMapper submissionMapper;
     private final AssignmentRepository assignmentRepository;
     private final StudentRepository studentRepository;
     private final StorageService storageService;
