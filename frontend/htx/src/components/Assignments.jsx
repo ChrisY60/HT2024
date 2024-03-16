@@ -12,6 +12,8 @@ const Assignments = ({ title, subject, description, dueDate }) => {
     };
 
     const [files, setFiles] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [uploaded, setUploaded] = useState(false);
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -28,12 +30,17 @@ const Assignments = ({ title, subject, description, dueDate }) => {
             formData.append('files', file);
         });
 
+        setUploading(true);
+
         try {
             const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' };
             await axios.post('http://localhost:8080/api/v1/assignments/1/submissions', formData, { headers });
             console.log('Files uploaded successfully');
+            setUploaded(true);
         } catch (error) {
             console.error('Error uploading files:', error);
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -63,7 +70,19 @@ const Assignments = ({ title, subject, description, dueDate }) => {
                                 ))}
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-success btn-lighten">Hand In</button>
+                        {uploading ? (
+                            <button type="button" className="btn btn-success btn-lighten" disabled>
+                                Uploading...
+                            </button>
+                        ) : uploaded ? (
+                            <button type="button" className="btn btn-success btn-lighten" disabled>
+                                Handed In
+                            </button>
+                        ) : (
+                            <button type="submit" className="btn btn-success btn-lighten">
+                                Hand In
+                            </button>
+                        )}
                     </form>
                 </div>
             </div>
