@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-//import { API_BASE_URL, REGISTER_ENDPOINT } from '../api';
 import { useAuth } from './Auth';
 
 const Register = () => {
@@ -58,7 +57,6 @@ const Register = () => {
         }
     };
 
-    //TODO: field for accesscode, field for role, if role teacher nothing happens, if student - two dropdowns for class, one for class number
     return (
         <div className="d-flex align-items-center justify-content-center">
             <div className="card bg-white p-4 rounded-lg shadow-sm">
