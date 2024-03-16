@@ -10,4 +10,5 @@ import java.util.List;
 public class SubmissionResponse {
     private GradeResponse gradeResponse;
     private List<String> files;
+    private boolean graded;
 }
