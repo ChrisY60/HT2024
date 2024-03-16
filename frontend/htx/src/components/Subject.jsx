@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from "./Auth";
 import { getCurrentUser } from "./authUtils";
 import axios from "axios";
+import { saveAs } from 'file-saver';
 
 const Subject = () => {
     const [displayAssignments, setDisplayAssignments] = useState(true);
@@ -11,62 +12,28 @@ const Subject = () => {
     const { token, isTokenExpired } = useAuth();
     const { id } = useParams();
     const [subjectData, setSubjects] = useState([]);
-    /*const subjectData = {
-        name: 'Mathematics',
-        teacher: 'Mr. Smith',
-        assignments: [
-            { id: 1, title: "Algebra Homework", endDate: '2024-03-20' },
-            { id: 2, title: 'Geometry Quiz', endDate: '2024-03-25' },
-            { id: 3, title: 'Calculus Project', endDate: '2024-04-05' }
-        ],
-        materials: [
-            { title: 'Mathematics Textbook', datePublished: '2024-03-01' },
-            { title: 'Additional Practice Sheets', datePublished: '2024-03-05' },
-            { title: 'Video Lecture Series', datePublished: '2024-03-10' }
-        ]
-    };*/
-
-    const navigate = useNavigate(); // Initialize navigate hook
+    const navigate = useNavigate();
 
     useEffect(() => {
         const userRole = getCurrentUser(token);
         setUser(userRole);
-        const headers = {Authorization: `Bearer ${token}`};
-        axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
+        const headers = { Authorization: `Bearer ${token}` };
+        axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, { headers })
             .then((res) => {
-                console.log(res.data);
-                const subjectData = res.data;
-                setSubjects(subjectData);
+                setSubjects(res.data);
             })
             .catch((err) => {
                 console.error('Error fetching subjects:', err);
             });
-    }, [user]);
+    };
 
     const handleToggle = () => {
         setDisplayAssignments(!displayAssignments);
-        const headers = {Authorization: `Bearer ${token}`};
-        if(displayAssignments){
-            axios.get(`http://localhost:8080/api/v1/subjects/${id}/materials`, {headers})
-                .then((res) => {
-                    console.log(res.data);
-                    const subjectData = res.data;
-                    setSubjects(subjectData);
-                })
-                .catch((err) => {
-                    console.error('Error fetching subjects:', err);
-                });
-        } else {
-            axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
-                .then((res) => {
-                    console.log(res.data);
-                    const subjectData = res.data;
-                    setSubjects(subjectData);
-                })
-                .catch((err) => {
-                    console.error('Error fetching subjects:', err);
-                });
-        }
+        fetchData();
     };
 
     const passAssignment = (assignment) => {
@@ -75,6 +42,19 @@ const Subject = () => {
         setAssignmentString(queryString);
     };
 
+    const exportGrades = () => {
+        const headers = { Authorization: `Bearer ${token}` };
+        axios.get(`http://localhost:8080/api/v1/export/excel/${id}`, { headers, responseType: 'blob' })
+            .then((res) => {
+                const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                saveAs(blob, `grades_${id}.xlsx`);
+            })
+            .catch((err) => {
+                console.error('Error exporting grades:', err);
+            });
+    };
+
+
     return (
         <div className="subject text-center">
             <h2>{subjectData.name}</h2>
@@ -82,17 +62,23 @@ const Subject = () => {
             <div className="mb-3 d-flex justify-content-center">
                 {user === "TEACHER" ? (
                     <div>
-                        <button  style={{marginRight: "1vw"}}
+                        <button style={{ marginRight: "1vw" }}
                             className="btn btn-sm btn-success"
                             onClick={() => navigate(`/add-assignment?id=${id}`)}
                         >
                             Add Assignment
                         </button>
-                        <button
+                        <button style={{ marginRight: "1vw" }}
                             className="btn btn-sm btn-success"
                             onClick={() => navigate(`/add-material?id=${id}`)}
                         >
                             Add Material
+                        </button>
+                        <button 
+                            className="btn btn-sm btn-success"
+                            onClick={exportGrades}
+                        >
+                            Export All Grades
                         </button>
                     </div>
                 ) : null
