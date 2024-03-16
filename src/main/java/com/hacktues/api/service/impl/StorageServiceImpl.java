@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,7 +44,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public List<?> uploadFiles(List<MultipartFile> files) {
-        List<FilePath> filePaths = null;
+        List<FilePath> filePaths = new ArrayList<>();
         for (MultipartFile file : files) {
             FilePath filePath = uploadFile(file, file.getOriginalFilename());
             filePaths.add(filePath);
