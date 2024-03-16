@@ -1,11 +1,13 @@
 package com.hacktues.api.service.impl;
 
+import com.hacktues.api.DTO.GradeCreateRequest;
 import com.hacktues.api.DTO.GradesWithSubjectResponse;
-import com.hacktues.api.entity.Grade;
-import com.hacktues.api.entity.Student;
-import com.hacktues.api.entity.User;
+import com.hacktues.api.entity.*;
 import com.hacktues.api.mapper.GradeMapper;
 import com.hacktues.api.repository.StudentRepository;
+import com.hacktues.api.repository.SubjectRepository;
+import com.hacktues.api.repository.SubmissionRepository;
+import com.hacktues.api.repository.TeacherRepository;
 import com.hacktues.api.service.GradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,8 @@ import static java.util.stream.Collectors.*;
 public class GradeServiceImpl implements GradeService {
     private final StudentRepository studentRepository;
     private final GradeMapper gradeMapper;
+    private final TeacherRepository teacherRepository;
+    private final SubmissionRepository submissionRepository;
 
     @Override
     public List<GradesWithSubjectResponse> getGrades() {
@@ -32,5 +36,20 @@ public class GradeServiceImpl implements GradeService {
                 .entrySet().stream()
                 .map(entry -> new GradesWithSubjectResponse(entry.getKey().getName(), entry.getValue()))
                 .toList();
+    }
+
+    @Override
+    public void gradeSubmission(Long submissionId, GradeCreateRequest gradeCreateRequest) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Teacher teacher = teacherRepository.findTeacherByUserId(currentUser.getId());
+        Grade grade = gradeMapper.toGrade(gradeCreateRequest);
+        Submission submission = submissionRepository.findById(submissionId).orElseThrow();
+
+        grade.setTeacher(teacher);
+        grade.setStudent(submission.getStudent());
+        grade.setSubject(submission.getAssignment().getSubject());
+
+        submission.setGraded(true);
+        submissionRepository.save(submission);
     }
 }

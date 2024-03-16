@@ -18,6 +18,9 @@ public class Submission {
     @Column(name = "handed_in")
     private boolean handedIn;
 
+    @Column(name = "graded")
+    private boolean graded;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "submission_files",

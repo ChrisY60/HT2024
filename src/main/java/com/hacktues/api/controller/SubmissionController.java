@@ -24,4 +24,9 @@ public class SubmissionController {
     public List<String> getSubmissionFiles(@PathVariable Long assignment_id) {
         return submissionService.getSubmissionFiles(assignment_id);
     }
+
+    @GetMapping(path = "/{student_id}")
+    public  getSubmissionFilesByStudent(@PathVariable Long assignment_id, @PathVariable Long student_id) {
+        return submissionService.getSubmissionFilesByStudent(assignment_id, student_id);
+    }
 }
