@@ -2,6 +2,7 @@ package com.hacktues.api.controller;
 
 import com.azure.core.annotation.Post;
 import com.hacktues.api.DTO.MaterialCreateRequest;
+import com.hacktues.api.DTO.MaterialCreateRequestTemp;
 import com.hacktues.api.service.MaterialService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,12 @@ public class MaterialsController {
                                                @RequestPart("materialCreateRequest") MaterialCreateRequest materialCreateRequest,
                                                @RequestPart("files") List<MultipartFile> files) {
         materialService.createMaterial(subjectId, materialCreateRequest, files);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/temp")
+    public ResponseEntity<?> createMaterialTemp(@PathVariable Long subjectId, @RequestBody MaterialCreateRequestTemp materialCreateRequest) {
+        materialService.createMaterialTemp(subjectId, materialCreateRequest);
         return ResponseEntity.ok().build();
     }
 }

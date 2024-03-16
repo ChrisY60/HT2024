@@ -1,6 +1,7 @@
 package com.hacktues.api.service;
 
 import com.hacktues.api.DTO.MaterialCreateRequest;
+import com.hacktues.api.DTO.MaterialCreateRequestTemp;
 import com.hacktues.api.DTO.MaterialResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,4 +11,6 @@ public interface MaterialService {
     List<MaterialResponse> getMaterialsBySubjectId(Long subjectId);
 
     void createMaterial(Long subjectId, MaterialCreateRequest materialCreateRequest, List<MultipartFile> files);
+
+    void createMaterialTemp(Long subjectId, MaterialCreateRequestTemp materialCreateRequest);
 }

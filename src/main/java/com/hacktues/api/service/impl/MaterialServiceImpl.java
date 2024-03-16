@@ -1,14 +1,17 @@
 package com.hacktues.api.service.impl;
 
 import com.hacktues.api.DTO.MaterialCreateRequest;
+import com.hacktues.api.DTO.MaterialCreateRequestTemp;
 import com.hacktues.api.DTO.MaterialResponse;
 import com.hacktues.api.entity.*;
 import com.hacktues.api.mapper.MaterialMapper;
+import com.hacktues.api.repository.FileRepository;
 import com.hacktues.api.repository.MaterialRepository;
 import com.hacktues.api.repository.SubjectRepository;
 import com.hacktues.api.repository.TeacherRepository;
 import com.hacktues.api.service.MaterialService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,7 @@ public class MaterialServiceImpl implements MaterialService {
     private final TeacherRepository teacherRepository;
     private final SubjectRepository subjectRepository;
     private final StorageServiceImpl storageService;
+    private final FileRepository fileRepository;
 
     @Override
     public List<MaterialResponse> getMaterialsBySubjectId(Long subjectId) {
@@ -51,5 +55,21 @@ public class MaterialServiceImpl implements MaterialService {
         material.setDate(new Date());
 
         materialRepository.save(material);
+    }
+
+    @Override
+    public void createMaterialTemp(Long subjectId, MaterialCreateRequestTemp materialCreateRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Teacher teacher = teacherRepository.findTeacherByUserId(user.getId());
+        Material assignment = materialMapper.toMaterial(materialCreateRequest);
+        Subject subject = subjectRepository.findById(subjectId).orElseThrow();
+
+        List<FilePath> filePaths = materialCreateRequest.getFileIds().stream().map(id -> fileRepository.findById(id).orElseThrow()).toList();
+
+        assignment.setSubject(subject);
+        assignment.setTeacher(teacher);
+        assignment.setFilePaths(filePaths);
+
+        materialRepository.save(assignment);
     }
 }
