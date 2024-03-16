@@ -30,7 +30,7 @@ const Assignments = ({ title, subject, description, dueDate }) => {
 
         try {
             const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' };
-            await axios.post('http://192.168.199.73:8080/api/v1/storage/files', formData, { headers });
+            await axios.post('http://localhost:8080/api/v1/storage/files', formData, { headers });
             console.log('Files uploaded successfully');
         } catch (error) {
             console.error('Error uploading files:', error);

@@ -11,24 +11,61 @@ const AddAssignment = () => {
     const [assignmentName, setAssignmentName] = useState('');
     const [deadline, setDeadline] = useState('');
     const [description, setDescription] = useState('');
+    const [files, setFiles] = useState([]);
 
-    const handleAddAssignment = async () => {
+    const handleFileChange = (e) => {
+        const selectedFiles = Array.from(e.target.files);
+        console.log('Selected files:', selectedFiles);
+        setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+    };
+    const handleAddAssignment = async (e) => {
+        e.preventDefault();
+        const formattedDeadline = deadline.replace('T', ' ');
+        /*const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        const formdata = new FormData();
+        files.forEach(file => {
+            formdata.append('files', file, file.name);
+        });
+        formdata.append("assignmentCreateRequest", "{\"name\":\"" + assignmentName + "\",\"deadline\":\"" + deadline + "\",\"description\":\"" + description + "\"}");
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:8080/api/v1/subjects/1/assignments", requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+*/
+
+        console.log('Files submitted:', files);
+
+        const formData = new FormData();
+        files.forEach(file => {
+            formData.append('files', file);
+        });
+
         try {
-            const headers = { Authorization: `Bearer ${token}` };
-            const response = await axios.post(
-                `http://192.168.199.73:8080/api/v1/subjects/${id}/assignments`,
-                {
-                    name: assignmentName,
-                    deadline: deadline,
-                    description: description,
-                },
-                { headers }
-            );
-            console.log('Assignment added successfully:', response.data);
-            navigate(`/subject/${id}`); // Redirect to the subject page after adding the assignment
+            const headers = { Authorization: `Bearer ${token}`};
+            const response = await axios.post('http://localhost:8080/api/v1/storage/files_temp', formData, { headers });
+            console.log(response.data);
+            await axios.post(`http://localhost:8080/api/v1/subjects/${id}/assignments/temp`, {
+                name: assignmentName,
+                deadline: formattedDeadline,
+                description: description,
+                fileIds: response.data
+            }, {headers:{ Authorization: `Bearer ${token}`, ContentType: 'application/json' }})
+            console.log('Files uploaded successfully');
         } catch (error) {
-            console.error('Error adding assignment:', error);
+            console.error('Error uploading files:', error);
         }
+
+
     };
 
     return (
@@ -47,7 +84,8 @@ const AddAssignment = () => {
                 <div className="mb-3">
                     <label className="form-label">Deadline:</label>
                     <input
-                        type="date"
+                        type="datetime-local"
+                        step="1"
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
                         className="form-control"
@@ -60,6 +98,22 @@ const AddAssignment = () => {
                         onChange={(e) => setDescription(e.target.value)}
                         className="form-control"
                     />
+                </div>
+                <div className="row mb-3">
+                    <div className="col-12">
+                        <label htmlFor="fileInput" className="form-label">Attach File:</label>
+                    </div>
+                    <div className="col-12">
+                        <input type="file" id="fileInput" className="form-control-file" onChange={handleFileChange} multiple />
+                    </div>
+                    <div className="mt-3">
+                        {files.map((file, index) => (
+                            <div key={index} className="d-flex align-items-center">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2246/2246713.png" alt="file icon" style={{ width: '24px', height: '24px', marginRight: '8px' }} />
+                                <span>{file.name}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <button
                     type="button"

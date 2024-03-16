@@ -35,7 +35,7 @@ const Main = () => {
 
     useEffect(() => {
         const headers = {Authorization: `Bearer ${token}`};
-        axios.get(`http://192.168.199.73:8080/api/v1/subjects`, {headers})
+        axios.get(`http://localhost:8080/api/v1/subjects`, {headers})
             .then((res) => {
                 const subjectData = res.data;
                 setSubjects(subjectData);

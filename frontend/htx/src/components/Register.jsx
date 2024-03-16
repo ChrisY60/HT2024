@@ -25,7 +25,7 @@ const Register = () => {
             const studentClassInfo = studentClass + studentClassLetter;
 
             if(role === 'STUDENT') {
-                response = await axios.post(`http://192.168.199.73:8080/api/v1/auth/register-student`, {
+                response = await axios.post(`http://localhost:8080/api/v1/auth/register-student`, {
                     firstName: firstName,
                     middleName: middleName,
                     lastName: lastName,
@@ -37,7 +37,7 @@ const Register = () => {
                     studentClass: studentClassInfo,
                 });
             } else {
-                response = await axios.post(`http://192.168.199.73:8080/api/v1/auth/register-teacher`, {
+                response = await axios.post(`http://localhost:8080/api/v1/auth/register-teacher`, {
                     firstName: firstName,
                     middleName: middleName,
                     lastName: lastName,

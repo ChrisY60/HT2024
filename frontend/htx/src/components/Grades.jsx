@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from "axios";
+import {useAuth} from "./Auth";
 
-const Grades = ({ grades }) => {
+const Grades = () => {
     const dummyGrades = [
         { subject: 'Math', grades: [{ value: 6, description: 'Algebra', date: '2023-05-10' }, { value: 4, description: 'Geometry', date: '2023-05-15' }, { value: 6, description: 'Calculus', date: '2023-06-01' }] },
         { subject: 'Science', grades: [{ value: 5, description: 'Physics', date: '2023-04-20' }, { value: 2, description: 'Chemistry', date: '2023-04-25' }, { value: 6, description: 'Biology', date: '2023-05-05' }] },
@@ -8,13 +10,18 @@ const Grades = ({ grades }) => {
         { subject: 'English', grades: [{ value: 6, description: 'Literature', date: '2023-02-10' }] },
         { subject: 'Art', grades: [{ value: 5, description: 'Painting', date: '2023-01-20' }, { value: 6, description: 'Sculpture', date: '2023-01-25' }] },
     ];
-
+    const [grades, setGrades] = useState([]);
     const [clickedGrade, setClickedGrade] = useState(null);
     const [clickedGradePosition, setClickedGradePosition] = useState({ x: 0, y: 0 });
+    const { token, isTokenExpired } = useAuth();
 
     const tooltipRef = useRef(null);
 
     useEffect(() => {
+        const headers = {Authorization: `Bearer ${token}`};
+        axios.get(`http://localhost:8080/api/v1/grades`, { headers }).then((res) => {
+            setGrades(res.data);
+        });
         const handleClickOutside = (event) => {
             if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
                 setClickedGrade(null);
@@ -29,7 +36,7 @@ const Grades = ({ grades }) => {
     }, []);
 
     const getGradeColor = (gradeValue) => {
-        const grade = gradeValue.value;
+        const grade = gradeValue.grade;
         switch (grade) {
             case 6:
                 return '#4CBB17';
@@ -65,9 +72,9 @@ const Grades = ({ grades }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {dummyGrades.map((gradeData, index) => (
+                        {grades.map((gradeData, index) => (
                             <tr key={index}>
-                                <td>{gradeData.subject}</td>
+                                <td>{gradeData.name}</td>
                                 <td>
                                     {gradeData.grades.map((gradeValue, i) => (
                                         <span
@@ -76,7 +83,7 @@ const Grades = ({ grades }) => {
                                             style={{ backgroundColor: getGradeColor(gradeValue) }}
                                             onClick={(event) => handleGradeClick(gradeValue, event)}
                                         >
-                                            {gradeValue.value}
+                                            {gradeValue.grade}
                                         </span>
                                     ))}
                                 </td>
@@ -87,9 +94,9 @@ const Grades = ({ grades }) => {
             </div>
             {clickedGrade && (
                 <div ref={tooltipRef} className="clicked-grade" style={{ position: 'absolute', top: clickedGradePosition.y, left: clickedGradePosition.x, transform: 'translate(-100%, -100%)' }}>
-                    <p>Grade: {clickedGrade.value}</p> 
-                    <p>Description: {clickedGrade.description}</p>
-                    <p>Date: {clickedGrade.date}</p>
+                    <p>Grade: {clickedGrade.grade}</p>
+                    <p>Description: {clickedGrade.comment}</p>
+                    <p>Date: {clickedGrade.gradedDate}</p>
                 </div>
             )}
         </div>
