@@ -1,6 +1,7 @@
 package com.hacktues.api.mapper;
 
 import com.hacktues.api.DTO.AssignmentCreateRequest;
+import com.hacktues.api.DTO.AssignmentCreateRequestTemp;
 import com.hacktues.api.DTO.AssignmentResponse;
 import com.hacktues.api.entity.Assignment;
 import org.mapstruct.Mapper;
@@ -14,4 +15,5 @@ public interface AssignmentMapper {
     AssignmentResponse toAssignmentResponse(Assignment assignment);
     List<AssignmentResponse> toAssignmentResponseList(List<Assignment> assignments);
     Assignment toAssignment(AssignmentCreateRequest assignmentCreateRequest);
+    Assignment toAssignment(AssignmentCreateRequestTemp assignmentCreateRequest);
 }

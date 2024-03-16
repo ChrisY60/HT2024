@@ -2,6 +2,7 @@ package com.hacktues.api.controller;
 
 import com.hacktues.api.service.StorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,5 +31,17 @@ public class StorageController {
             storageService.uploadFile(file, UUID.randomUUID().toString());
         }
         System.out.println("Files uploaded");
+    }
+
+    @PostMapping("/files_temp")
+    public ResponseEntity<?> uploadFilesTemp(@RequestParam("files") List<MultipartFile> files) {
+        System.out.println("In uploadFilesTemp method");
+        System.out.println("Files: " + files.size());
+
+        List<?> filePaths = storageService.uploadFiles(files);
+        List<Long> filePathsIds = filePaths.stream().map(fp -> ((com.hacktues.api.entity.FilePath) fp).getId()).toList();
+
+        System.out.println("Files uploaded");
+        return ResponseEntity.ok(filePathsIds);
     }
 }

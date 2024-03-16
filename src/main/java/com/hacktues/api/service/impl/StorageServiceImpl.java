@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StorageServiceImpl implements StorageService {
@@ -36,5 +39,16 @@ public class StorageServiceImpl implements StorageService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload file", e);
         }
+    }
+
+    @Override
+    public List<?> uploadFiles(List<MultipartFile> files) {
+        List<FilePath> filePaths = null;
+        for (MultipartFile file : files) {
+            FilePath filePath = uploadFile(file, file.getOriginalFilename());
+            filePaths.add(filePath);
+        }
+
+        return filePaths;
     }
 }

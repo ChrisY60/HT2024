@@ -1,6 +1,7 @@
 package com.hacktues.api.controller;
 
 import com.hacktues.api.DTO.AssignmentCreateRequest;
+import com.hacktues.api.DTO.AssignmentCreateRequestTemp;
 import com.hacktues.api.service.AssignmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class AssignmentController {
     @GetMapping
     public ResponseEntity<?> getAssignmentsBySubject(@PathVariable Long subjectId) {
         return ResponseEntity.ok(assignmentService.getAssignmentsBySubjectId(subjectId));
+    }
+
+    @PostMapping("/temp")
+    public ResponseEntity<?> createAssignmentTemp(@PathVariable Long subjectId, @RequestBody AssignmentCreateRequestTemp assignmentCreateRequest) {
+        return ResponseEntity.ok(assignmentService.createAssignmentTemp(subjectId, assignmentCreateRequest));
     }
 }
