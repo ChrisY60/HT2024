@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/v1/submissions{submission_id}/grades")
+@RequestMapping(path = "/api/v1/submissions/{submission_id}/grades")
 public class SubmissionGraderController {
     private final GradeService gradeService;
 
