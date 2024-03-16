@@ -116,7 +116,11 @@ public class ExportServiceImpl implements ExportService {
                     .max()
                     .orElse(0);
 
-            for (int i = 0; i < maxGradeCount - 1; i++) {
+            if (maxGradeCount != 0) {
+                maxGradeCount--;
+            }
+
+            for (int i = 0; i < maxGradeCount; i++) {
                 headerRow.createCell(i + cellNum).setCellValue("Grade");
             }
             headerRow.createCell(maxGradeCount + cellNum).setCellValue("Term Grade");
