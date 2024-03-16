@@ -16,12 +16,12 @@ public class ClientController {
     private final WinstonClient winstonClient;
 
     @GetMapping("/ai")
-    public ResponseEntity<Double> checkForAi(String text) {
-        return ResponseEntity.ok(winstonClient.checkForAi(text));
+    public ResponseEntity<Double> checkForAi(String blobName) {
+        return ResponseEntity.ok(winstonClient.checkForAi(blobName));
     }
 
     @GetMapping("/plagiarism")
-    public ResponseEntity<List<String>> checkForPlagiarism(String text) {
-        return ResponseEntity.ok(winstonClient.checkForPlagiarism(text));
+    public ResponseEntity<List<String>> checkForPlagiarism(String blobName) {
+        return ResponseEntity.ok(winstonClient.checkForPlagiarism(blobName));
     }
 }

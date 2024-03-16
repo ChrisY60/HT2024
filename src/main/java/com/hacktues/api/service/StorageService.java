@@ -9,4 +9,6 @@ public interface StorageService {
     FilePath uploadFile(MultipartFile file, String blobName);
 
     List<?> uploadFiles(List<MultipartFile> files);
+
+    byte[] downloadFile(String blobName);
 }

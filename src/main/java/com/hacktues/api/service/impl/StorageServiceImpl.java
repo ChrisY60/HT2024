@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +51,21 @@ public class StorageServiceImpl implements StorageService {
         }
 
         return filePaths;
+    }
+
+    @Override
+    public byte[] downloadFile(String blobName) {
+        BlobClient blobClient = new BlobClientBuilder()
+                .endpoint(endpoint)
+                .containerName(containerName)
+                .blobName(blobName)
+                .buildClient();
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            blobClient.downloadStream(outputStream);
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to download file!", e);
+        }
     }
 }

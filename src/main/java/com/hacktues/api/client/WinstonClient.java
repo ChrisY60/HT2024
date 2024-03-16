@@ -3,6 +3,7 @@ package com.hacktues.api.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hacktues.api.DTO.WinstonRequest;
+import com.hacktues.api.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,11 @@ public class WinstonClient {
     @Value("${winston.key}")
     private String apiKey;
 
-    public double checkForAi(String text) {
+    private final StorageService storageService;
+
+    public double checkForAi(String blobName) {
+        byte[] file = storageService.downloadFile(blobName);
+        String text = new String(file);
 
         RestClient restClient = RestClient.create();
 
@@ -42,7 +47,10 @@ public class WinstonClient {
         }
     }
 
-    public List<String> checkForPlagiarism(String text) {
+    public List<String> checkForPlagiarism(String blobName) {
+        byte[] file = storageService.downloadFile(blobName);
+        String text = new String(file);
+
         RestClient restClient = RestClient.create();
 
         WinstonRequest body = new WinstonRequest(text);
