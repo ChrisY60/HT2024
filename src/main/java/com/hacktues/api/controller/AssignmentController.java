@@ -31,6 +31,7 @@ public class AssignmentController {
 
     @PostMapping("/temp")
     public ResponseEntity<?> createAssignmentTemp(@PathVariable Long subjectId, @RequestBody AssignmentCreateRequestTemp assignmentCreateRequest) {
+        assignmentService.createAssignmentTemp(subjectId, assignmentCreateRequest);
         return ResponseEntity.ok().build();
     }
 }
