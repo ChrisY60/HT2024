@@ -85,6 +85,8 @@ public class SubmissionServiceImpl implements SubmissionService {
             Grade grade = submission.getGrade();
             submissionResponse.setGradeResponse(gradeMapper.toGradeResponse(grade));
         }
+        submissionResponse.setId(submission.getId());
+        submissionResponse.setGraded(submission.isGraded());
         return submissionResponse;
     }
 }
