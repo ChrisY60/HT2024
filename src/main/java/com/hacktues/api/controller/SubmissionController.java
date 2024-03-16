@@ -1,6 +1,7 @@
 package com.hacktues.api.controller;
 
 import com.hacktues.api.DTO.SubmissionRequest;
+import com.hacktues.api.DTO.SubmissionResponse;
 import com.hacktues.api.service.SubmissionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class SubmissionController {
     }
 
     @GetMapping(path = "/{student_id}")
-    public  getSubmissionFilesByStudent(@PathVariable Long assignment_id, @PathVariable Long student_id) {
+    public SubmissionResponse getSubmissionFilesByStudent(@PathVariable Long assignment_id, @PathVariable Long student_id) {
         return submissionService.getSubmissionFilesByStudent(assignment_id, student_id);
     }
 }

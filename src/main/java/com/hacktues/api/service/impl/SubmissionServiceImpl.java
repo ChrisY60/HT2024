@@ -1,5 +1,6 @@
 package com.hacktues.api.service.impl;
 
+import com.hacktues.api.DTO.SubmissionResponse;
 import com.hacktues.api.entity.*;
 import com.hacktues.api.repository.AssignmentRepository;
 import com.hacktues.api.repository.StudentRepository;
@@ -61,5 +62,10 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .stream()
                 .map(FilePath::getPath)
                 .toList();
+    }
+
+    @Override
+    public SubmissionResponse getSubmissionFilesByStudent(Long assignmentId, Long studentId) {
+        return null;
     }
 }
