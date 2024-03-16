@@ -1,5 +1,6 @@
 package com.hacktues.api.entity;
 
+import com.hacktues.api.enums.GradeType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,10 @@ public class Grade {
 
     @Column(name = "grade")
     private Double grade;
+
+    @Column(name = "grade_type")
+    @Enumerated(EnumType.STRING)
+    private GradeType gradeType;
 
     @Column(name = "comment")
     private String comment;
