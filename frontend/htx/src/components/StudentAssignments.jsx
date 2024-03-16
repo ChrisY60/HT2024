@@ -7,14 +7,19 @@ const StudentAssignments = () => {
     const [receivedData, setReceivedData] = useState({});
     const [studentsData, setStudentsData] = useState([]);
     const { token, isTokenExpired } = useAuth();
-
+    const [assignmentId, setAssignmentId] = useState('');
+    const [name, setName] = useState('');
+    const [deadline, setDeadline] = useState('');
 
     useEffect(() => {
         const headers = {Authorization: `Bearer ${token}`};
         const queryParams = new URLSearchParams(window.location.search);
         const id = queryParams.get('id');
+        setAssignmentId(id);
         const title = queryParams.get('name');
+        setName(title);
         const endDate = queryParams.get('deadline');
+        setDeadline(endDate);
 
         console.log({id, title, endDate});
         setReceivedData({ id, title, endDate });
@@ -23,30 +28,25 @@ const StudentAssignments = () => {
             .then((res) => {
                 console.log(res.data);
                 const students = res.data;
-                const names = students.map((student) => student.firstName + ' ' + student.middleName + ' ' + student.lastName);
-                setStudentsData(names);
+                const studentIdName = students.map((student) => {
+                    return {id: student.id, name: student.firstName + ' ' + student.middleName + ' ' + student.lastName};
+                });
+                console.log(studentIdName);
+                setStudentsData(studentIdName);
             })
             .catch((err) => {
                 console.error('Error fetching subjects:', err);
             });
     }, [token]);
-    /*const studentsData = [
-        { id: 1, name: "John Doe" },
-        { id: 2, name: "Jane Smith" },
-        { id: 3, name: "Alice Johnson" },
-        { id: 4, name: "Bob Brown" },
-        { id: 5, name: "Emily Davis" }
-    ];*/
-
     return (
         <div className="container">
             <h3 className="mt-4">Students Related to Assignment: {receivedData.title}</h3>
             <ul className="list-group mt-3">
                 {studentsData.map((student, index) => (
                     <li key={index} className="list-group-item ">
-                        <Link to="/assignment" className="text-decoration-none text-dark">
-                            {student}
-                        </Link>
+                        <a href={`/review-assignment?assignmentId=${assignmentId}&studentId=${student.id}&title=${name}&deadline=${deadline}`} className="text-decoration-none text-dark">
+                            {student.name}
+                        </a>
                     </li>
                 ))}
             </ul>

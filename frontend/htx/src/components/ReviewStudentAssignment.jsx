@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useAuth } from "./Auth";
 
-const Assignments = ({ title, subject, description, dueDate }) => {
+const ReviewStudentAssignment = () => {
     const { token } = useAuth();
-    const assignment = {
-        title: 'Math Assignment',
-        subject: 'Mathematics',
-        description: 'Complete exercises 1-10 from Chapter 3',
-        dueDate: '2024-03-20'
-    };
-
     const [files, setFiles] = useState([]);
+    const queryParams = new URLSearchParams(window.location.search);
+    const assignmentId = queryParams.get('assignmentId');
+    const studentId = queryParams.get('studentId');
+    const title = queryParams.get('title');
+    const deadline = queryParams.get('deadline');
+
+    useEffect(async () => {
+        await axios.get(`http://localhost:8080/api/v1/assignments/${assignmentId}/submissions/${studentId}`, {headers: {Authorization: `Bearer ${token}`}}).then((res) => {
+            console.log('Student assignment:', res.data);
+        });
+    }, [token, assignmentId, studentId]);
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -30,7 +34,7 @@ const Assignments = ({ title, subject, description, dueDate }) => {
 
         try {
             const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' };
-            await axios.post('http://localhost:8080/api/v1/assignments/1/submissions', formData, { headers });
+            await axios.post('http://localhost:8080/api/v1/storage/files', formData, { headers });
             console.log('Files uploaded successfully');
         } catch (error) {
             console.error('Error uploading files:', error);
@@ -41,10 +45,8 @@ const Assignments = ({ title, subject, description, dueDate }) => {
         <div className="assignment-card" style={{ width: '50vw', margin: 'auto' }}>
             <div className="card shadow p-3 mb-5 mt-5 bg-white rounded">
                 <div className="card-body">
-                    <h5 className="card-title">{assignment.title}</h5>
-                    <p className="card-subtitle mb-2 text-muted">Subject: {assignment.subject}</p>
-                    <p className="card-text">Description: {assignment.description}</p>
-                    <p className="card-text"><small className="text-muted">Due Date: {assignment.dueDate}</small></p>
+                    <h5 className="card-title">{title}</h5>
+                    <p className="card-text"><small className="text-muted">Due Date: {deadline}</small></p>
                     <hr />
                     <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
@@ -71,4 +73,4 @@ const Assignments = ({ title, subject, description, dueDate }) => {
     );
 };
 
-export default Assignments;
+export default ReviewStudentAssignment;

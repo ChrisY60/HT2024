@@ -3,13 +3,12 @@ import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from './Auth';
 
-const AddAssignment = () => {
+const AddMaterial = () => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
     const id = queryParams.get('id');
     const { token } = useAuth();
-    const [assignmentName, setAssignmentName] = useState('');
-    const [deadline, setDeadline] = useState('');
+    const [materialName, setMaterialName] = useState('');
     const [description, setDescription] = useState('');
     const [files, setFiles] = useState([]);
 
@@ -17,10 +16,8 @@ const AddAssignment = () => {
         const selectedFiles = Array.from(e.target.files);
         setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
-    const handleAddAssignment = async (e) => {
+    const handleAddMaterial = async (e) => {
         e.preventDefault();
-        const formattedDeadline = deadline.replace('T', ' ');
-
         const formData = new FormData();
         files.forEach(file => {
             formData.append('files', file);
@@ -29,9 +26,8 @@ const AddAssignment = () => {
         try {
             const headers = { Authorization: `Bearer ${token}`};
             const response = await axios.post('http://localhost:8080/api/v1/storage/files_temp', formData, { headers });
-            await axios.post(`http://localhost:8080/api/v1/subjects/${id}/assignments/temp`, {
-                name: assignmentName,
-                deadline: formattedDeadline,
+            await axios.post(`http://localhost:8080/api/v1/subjects/${id}/materials/temp`, {
+                name: materialName,
                 description: description,
                 fileIds: response.data
             }, {headers:{ Authorization: `Bearer ${token}`, ContentType: 'application/json' }})
@@ -43,24 +39,14 @@ const AddAssignment = () => {
 
     return (
         <div className="container mt-5">
-            <h1 className="text-center mb-4">Add Assignment</h1>
+            <h1 className="text-center mb-4">Add Material</h1>
             <form>
                 <div className="mb-3">
-                    <label className="form-label">Assignment Name:</label>
+                    <label className="form-label">Material Name:</label>
                     <input
                         type="text"
-                        value={assignmentName}
-                        onChange={(e) => setAssignmentName(e.target.value)}
-                        className="form-control"
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Deadline:</label>
-                    <input
-                        type="datetime-local"
-                        step="1"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
+                        value={materialName}
+                        onChange={(e) => setMaterialName(e.target.value)}
                         className="form-control"
                     />
                 </div>
@@ -90,14 +76,14 @@ const AddAssignment = () => {
                 </div>
                 <button
                     type="button"
-                    onClick={handleAddAssignment}
+                    onClick={handleAddMaterial}
                     className="btn btn-success"
                 >
-                    Add Assignment
+                    Add Material
                 </button>
             </form>
         </div>
     );
 };
 
-export default AddAssignment;
+export default AddMaterial;

@@ -1,23 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 import {useAuth} from "./Auth";
+import {getCurrentUser} from "./authUtils";
 
 const Grades = () => {
-    const dummyGrades = [
-        { subject: 'Math', grades: [{ value: 6, description: 'Algebra', date: '2023-05-10' }, { value: 4, description: 'Geometry', date: '2023-05-15' }, { value: 6, description: 'Calculus', date: '2023-06-01' }] },
-        { subject: 'Science', grades: [{ value: 5, description: 'Physics', date: '2023-04-20' }, { value: 2, description: 'Chemistry', date: '2023-04-25' }, { value: 6, description: 'Biology', date: '2023-05-05' }] },
-        { subject: 'History', grades: [{ value: 4, description: 'Ancient History', date: '2023-03-15' }, { value: 3, description: 'Modern History', date: '2023-03-20' }, { value: 2, description: 'World History', date: '2023-04-01' }] },
-        { subject: 'English', grades: [{ value: 6, description: 'Literature', date: '2023-02-10' }] },
-        { subject: 'Art', grades: [{ value: 5, description: 'Painting', date: '2023-01-20' }, { value: 6, description: 'Sculpture', date: '2023-01-25' }] },
-    ];
     const [grades, setGrades] = useState([]);
     const [clickedGrade, setClickedGrade] = useState(null);
     const [clickedGradePosition, setClickedGradePosition] = useState({ x: 0, y: 0 });
     const { token, isTokenExpired } = useAuth();
+    const [user, setUser] = useState('');
 
     const tooltipRef = useRef(null);
 
     useEffect(() => {
+        const userRole = getCurrentUser(token);
+        setUser(userRole);
         const headers = {Authorization: `Bearer ${token}`};
         axios.get(`http://localhost:8080/api/v1/grades`, { headers }).then((res) => {
             setGrades(res.data);
@@ -33,7 +30,7 @@ const Grades = () => {
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, []);
+    }, [user]);
 
     const getGradeColor = (gradeValue) => {
         const grade = gradeValue.grade;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import { useAuth } from "./Auth";
-import * as jose from "jose";
+import { getCurrentUser } from "./authUtils";
 import axios from "axios";
 
 const Subject = () => {
@@ -29,7 +29,8 @@ const Subject = () => {
     const navigate = useNavigate(); // Initialize navigate hook
 
     useEffect(() => {
-        getCurrentUser();
+        const userRole = getCurrentUser(token);
+        setUser(userRole);
         const headers = {Authorization: `Bearer ${token}`};
         axios.get(`http://localhost:8080/api/v1/subjects/${id}/assignments`, {headers})
             .then((res) => {
@@ -41,23 +42,6 @@ const Subject = () => {
                 console.error('Error fetching subjects:', err);
             });
     }, [user]);
-
-    const getCurrentUser = async () => {
-        try {
-            const decodedToken = jose.decodeJwt(token);
-            if (decodedToken && decodedToken.role) {
-                const userRole = decodedToken.role;
-                setUser(userRole);
-            } else {
-                console.error('Unable to retrieve user ID from JWT token.');
-                navigate('/login');
-            }
-        } catch (error) {
-            console.error('Error decoding JWT token:', error);
-
-            navigate('/login');
-        }
-    };
 
     const handleToggle = () => {
         setDisplayAssignments(!displayAssignments);
@@ -106,7 +90,7 @@ const Subject = () => {
                         </button>
                         <button
                             className="btn btn-sm btn-success"
-                            onClick={() => navigate('/add-material')}
+                            onClick={() => navigate(`/add-material?id=${id}`)}
                         >
                             Add Material
                         </button>
