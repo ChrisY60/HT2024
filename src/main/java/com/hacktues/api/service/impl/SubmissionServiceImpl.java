@@ -2,6 +2,7 @@ package com.hacktues.api.service.impl;
 
 import com.hacktues.api.DTO.SubmissionResponse;
 import com.hacktues.api.entity.*;
+import com.hacktues.api.mapper.GradeMapper;
 import com.hacktues.api.repository.AssignmentRepository;
 import com.hacktues.api.repository.StudentRepository;
 import com.hacktues.api.repository.SubmissionRepository;
@@ -23,6 +24,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final StudentRepository studentRepository;
     private final StorageService storageService;
     private final AuthenticationService authenticationService;
+    private GradeMapper gradeMapper;
 
     @Override
     public void submit(Long assignmentId, List<MultipartFile> files) {
@@ -66,6 +68,23 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     public SubmissionResponse getSubmissionFilesByStudent(Long assignmentId, Long studentId) {
-        return null;
+        Assignment assignment = assignmentRepository
+                .findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found!"));
+        Student student = studentRepository
+                .findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found!"));
+
+        Submission submission = submissionRepository
+                .findSubmissionByAssignmentAndStudent(assignment, student)
+                .orElseThrow(() -> new RuntimeException("Submission not found!"));
+
+        SubmissionResponse submissionResponse = new SubmissionResponse();
+        submissionResponse.setFiles(submission.getFilePaths().stream().map(FilePath::getPath).toList());
+        if (submission.isGraded()) {
+            Grade grade = submission.getGrade();
+            submissionResponse.setGradeResponse(gradeMapper.toGradeResponse(grade));
+        }
+        return submissionResponse;
     }
 }

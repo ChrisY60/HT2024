@@ -3,9 +3,11 @@ package com.hacktues.api.DTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Data
 @RequiredArgsConstructor
 public class SubmissionResponse {
-    private final Double grade;
-    private final String filePath;
+    private GradeResponse gradeResponse;
+    private List<String> files;
 }
